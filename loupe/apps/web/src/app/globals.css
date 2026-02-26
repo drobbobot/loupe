@@ -1,0 +1,140 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Loupe — Global Styles
+
+   FONT SWAP:
+   Currently loads Lora + Plus Jakarta Sans from Google Fonts (free placeholders).
+   Production: replace @import with @font-face declarations for Tiempos Text
+   and Söhne (Klim Type Foundry). Keep --font-serif and --font-sans variables
+   — Tailwind reads them from there.
+───────────────────────────────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS Custom Properties ───────────────────────────────────────────────── */
+:root {
+  /* Typography */
+  --font-serif: 'Lora', Georgia, serif;           /* → Tiempos Text in production */
+  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif; /* → Söhne in production */
+
+  /* Neutral palette */
+  --color-bg: #FAF8F5;       /* warm off-white — page background */
+  --color-text: #1C1710;     /* warm near-black — primary text */
+  --color-text-muted: #7C7268;
+  --color-border: #D6D0C7;
+  --color-surface: #F5F1EB;  /* slightly warmer surface for cards */
+
+  /* Active lens — populated post-assessment via inline style on <html> or <body> */
+  /* Defaults to neutral until a result is set */
+  --lens-color: #C4A882;
+  --lens-color-bg: #F5EFE6;
+  --lens-color-text: #6B5A42;
+
+  /* Transition timing */
+  --transition-base: 200ms ease;
+  --transition-reveal: 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Base styles ─────────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    line-height: 1.65;
+  }
+
+  /* Serif elements */
+  h1, h2, .font-serif {
+    font-family: var(--font-serif);
+  }
+
+  /* Focus styles — warm, not default blue */
+  *:focus-visible {
+    outline: 2px solid var(--lens-color);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  /* Reduced motion — respect user preference for all animations */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ── Lens colour environments ───────────────────────────────────────────── */
+/* Applied as data attribute on <body> or a container after assessment.
+   Usage: <body data-lens="orange">
+   See: src/lib/lens-theme.ts for the helper that sets this. */
+
+[data-lens="beige"]     { --lens-color: #C4A882; --lens-color-bg: #F5EFE6; --lens-color-text: #6B5A42; }
+[data-lens="purple"]    { --lens-color: #6B4E9B; --lens-color-bg: #EDE5F7; --lens-color-text: #3D2A60; }
+[data-lens="red"]       { --lens-color: #C0392B; --lens-color-bg: #FAE8E6; --lens-color-text: #7A2318; }
+[data-lens="blue"]      { --lens-color: #1E3A6E; --lens-color-bg: #E0E8F5; --lens-color-text: #122247; }
+[data-lens="orange"]    { --lens-color: #C4622D; --lens-color-bg: #FAE9DE; --lens-color-text: #7A3B18; }
+[data-lens="green"]     { --lens-color: #3D7A52; --lens-color-bg: #E0F0E8; --lens-color-text: #224532; }
+[data-lens="yellow"]    { --lens-color: #B89A28; --lens-color-bg: #FAF0D0; --lens-color-text: #6B5A10; }
+[data-lens="turquoise"] { --lens-color: #1A6B7A; --lens-color-bg: #D8EFF2; --lens-color-text: #0E424C; }
+
+/* ── Utility classes ─────────────────────────────────────────────────────── */
+@layer utilities {
+  /* Apply the active lens colour as background */
+  .bg-lens {
+    background-color: var(--lens-color);
+  }
+  .bg-lens-tinted {
+    background-color: var(--lens-color-bg);
+  }
+  .text-lens {
+    color: var(--lens-color);
+  }
+  .text-lens-on-color {
+    color: var(--lens-color-text);
+  }
+  .border-lens {
+    border-color: var(--lens-color);
+  }
+  .ring-lens {
+    --tw-ring-color: var(--lens-color);
+  }
+
+  /* Editorial prose container */
+  .prose-editorial {
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    max-width: 68ch;
+  }
+
+  /* Skeleton loading state */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-surface) 25%,
+      #EDE8DF 50%,
+      var(--color-surface) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s infinite;
+    border-radius: 4px;
+  }
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
