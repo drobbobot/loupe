@@ -132,6 +132,28 @@
     animation: skeleton-shimmer 1.5s infinite;
     border-radius: 4px;
   }
+
+  /* Hide scrollbar but allow scrolling (horizontal card scrollers) */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Safe area padding for bottom nav on notched devices */
+  .safe-area-pb {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }
 
 @keyframes skeleton-shimmer {

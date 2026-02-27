@@ -94,6 +94,10 @@ export interface AssessmentQuestion {
   inputType: InputType;
   // Options for multiple_choice and binary input types
   options?: Array<{ value: string; label: string }>;
+  // Slider pole labels (for slider input type only)
+  sliderConfig?: { labelMin: string; labelMax: string };
+  // Transition copy shown before this section (first question of section only)
+  sectionTransition?: string;
   // Note: weights and lens mappings are NOT here.
   // They live server-side in apps/web/src/lib/assessment/weights.ts
 }

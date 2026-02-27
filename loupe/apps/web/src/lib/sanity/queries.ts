@@ -122,7 +122,9 @@ export async function getAssessmentQuestions() {
       section,
       questionText,
       inputType,
-      options
+      options,
+      sliderConfig,
+      sectionTransition
       // Note: weights and lens mappings are NOT in Sanity — they live in
       // server-side scoring constants (src/lib/assessment/weights.ts)
     }`,
