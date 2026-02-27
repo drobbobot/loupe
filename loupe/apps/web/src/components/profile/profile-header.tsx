@@ -20,9 +20,10 @@ import type { ProfileData } from "@/lib/profile-data";
 
 interface ProfileHeaderProps {
   profile: ProfileData;
+  onShare?: () => void;
 }
 
-export function ProfileHeader({ profile }: ProfileHeaderProps) {
+export function ProfileHeader({ profile, onShare }: ProfileHeaderProps) {
   const GROUP_LABELS: Record<string, string> = {
     me: "Me",
     we: "We",
@@ -122,31 +123,51 @@ export function ProfileHeader({ profile }: ProfileHeaderProps) {
           ))}
         </motion.div>
 
-        {/* Secondary lens pill */}
+        {/* Secondary lens pill + share button */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="mt-8 flex items-center gap-3"
+          className="mt-8 flex items-center justify-between"
         >
-          <span
-            className="text-xs font-medium uppercase tracking-wider"
-            style={{ color: profile.colours.text, opacity: 0.7 }}
-          >
-            Secondary lens
-          </span>
-          <span className="flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium"
-            style={{
-              borderColor: profile.secondaryColours.DEFAULT,
-              color: profile.secondaryColours.DEFAULT,
-            }}
-          >
+          <div className="flex items-center gap-3">
             <span
-              className="h-2.5 w-2.5 rounded-full"
-              style={{ backgroundColor: profile.secondaryColours.DEFAULT }}
-            />
-            {profile.secondaryDisplayName}
-          </span>
+              className="text-xs font-medium uppercase tracking-wider"
+              style={{ color: profile.colours.text, opacity: 0.7 }}
+            >
+              Secondary lens
+            </span>
+            <span className="flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium"
+              style={{
+                borderColor: profile.secondaryColours.DEFAULT,
+                color: profile.secondaryColours.DEFAULT,
+              }}
+            >
+              <span
+                className="h-2.5 w-2.5 rounded-full"
+                style={{ backgroundColor: profile.secondaryColours.DEFAULT }}
+              />
+              {profile.secondaryDisplayName}
+            </span>
+          </div>
+
+          {onShare && (
+            <button
+              onClick={onShare}
+              className="flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-xs font-medium transition-all hover:bg-white/20 active:scale-[0.96]"
+              style={{
+                borderColor: `${profile.colours.DEFAULT}40`,
+                color: profile.colours.text,
+              }}
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 7V12H11V7" />
+                <path d="M7 1V9" />
+                <path d="M4.5 3.5L7 1L9.5 3.5" />
+              </svg>
+              Share
+            </button>
+          )}
         </motion.div>
       </div>
     </motion.section>

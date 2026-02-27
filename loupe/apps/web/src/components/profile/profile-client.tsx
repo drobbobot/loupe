@@ -15,8 +15,9 @@
 // Sets the lens colour theme on mount (like lens profile page).
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setLensTheme, clearLensTheme } from "@/lib/lens-theme";
+import { extractShareQuotes } from "@/lib/share-quotes";
 import type { ProfileData } from "@/lib/profile-data";
 import { ProfileHeader } from "./profile-header";
 import { ConfidenceNotes } from "./confidence-notes";
@@ -25,6 +26,7 @@ import { ShadowSection } from "./shadow-section";
 import { WhatsAhead } from "./whats-ahead";
 import { LensInTheWorld } from "./lens-in-the-world";
 import { RetakePrompt } from "./retake-prompt";
+import { ShareModal } from "./share-modal";
 
 interface ProfileClientProps {
   profile: ProfileData;
@@ -32,6 +34,9 @@ interface ProfileClientProps {
 }
 
 export function ProfileClient({ profile, completedAt }: ProfileClientProps) {
+  const [shareOpen, setShareOpen] = useState(false);
+  const shareQuotes = extractShareQuotes(profile);
+
   // Set lens colour theme on mount, clear on unmount
   useEffect(() => {
     setLensTheme(profile.primaryLens);
@@ -40,7 +45,7 @@ export function ProfileClient({ profile, completedAt }: ProfileClientProps) {
 
   return (
     <main className="min-h-screen pb-24">
-      <ProfileHeader profile={profile} />
+      <ProfileHeader profile={profile} onShare={() => setShareOpen(true)} />
       <ConfidenceNotes profile={profile} />
 
       {/* Divider */}
@@ -77,6 +82,15 @@ export function ProfileClient({ profile, completedAt }: ProfileClientProps) {
       </div>
 
       <RetakePrompt profile={profile} completedAt={completedAt} />
+
+      {/* Share modal */}
+      <ShareModal
+        isOpen={shareOpen}
+        onClose={() => setShareOpen(false)}
+        quotes={shareQuotes}
+        lensColour={profile.colours.DEFAULT}
+        lensName={profile.displayName}
+      />
     </main>
   );
 }
