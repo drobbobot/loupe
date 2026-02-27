@@ -63,7 +63,7 @@ export function BottomNav() {
   if (pathname?.startsWith("/assessment")) return null;
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-warm-200/60 bg-cream/95 backdrop-blur-sm safe-area-pb">
+    <nav aria-label="Main navigation" className="fixed inset-x-0 bottom-0 z-40 border-t border-warm-200/60 bg-cream/95 backdrop-blur-sm safe-area-pb">
       <div className="mx-auto flex h-16 max-w-lg items-center justify-around px-2">
         {TABS.map((tab) => {
           const isActive =
@@ -75,13 +75,14 @@ export function BottomNav() {
             <Link
               key={tab.href}
               href={tab.href}
+              aria-current={isActive ? "page" : undefined}
               className={`flex flex-col items-center gap-0.5 rounded-lg px-3 py-1.5 transition-colors ${
                 isActive
                   ? "text-lens"
                   : "text-warm-400 hover:text-warm-600"
               }`}
             >
-              {tab.icon}
+              <span aria-hidden="true">{tab.icon}</span>
               <span className="text-2xs font-medium">{tab.label}</span>
             </Link>
           );

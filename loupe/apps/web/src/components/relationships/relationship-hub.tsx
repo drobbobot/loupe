@@ -66,10 +66,10 @@ export function RelationshipHub({
       <div className="mx-auto mt-8 w-full max-w-md flex-1 space-y-6">
         {/* My Lens */}
         <div>
-          <label className="mb-2 block text-xs font-medium uppercase tracking-wider text-warm-400">
+          <label id="my-lens-label" className="mb-2 block text-xs font-medium uppercase tracking-wider text-warm-400">
             {userPrimaryLens ? "Your lens" : "First lens"}
           </label>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2" role="radiogroup" aria-labelledby="my-lens-label">
             {ALL_LENSES.map(({ slug, name }) => {
               const colors = LENS_COLORS[slug];
               const selected = myLens === slug;
@@ -77,6 +77,8 @@ export function RelationshipHub({
                 <button
                   key={slug}
                   onClick={() => setMyLens(slug)}
+                  role="radio"
+                  aria-checked={selected}
                   className="relative rounded-full px-4 py-2 text-sm font-medium transition-all"
                   style={{
                     backgroundColor: selected ? colors.DEFAULT : "transparent",
@@ -87,7 +89,7 @@ export function RelationshipHub({
                 >
                   {name}
                   {userPrimaryLens === slug && !selected && (
-                    <span className="ml-1 text-xs text-warm-400">(you)</span>
+                    <span aria-hidden="true" className="ml-1 text-xs text-warm-400">(you)</span>
                   )}
                 </button>
               );
@@ -97,10 +99,10 @@ export function RelationshipHub({
 
         {/* Their Lens */}
         <div>
-          <label className="mb-2 block text-xs font-medium uppercase tracking-wider text-warm-400">
+          <label id="their-lens-label" className="mb-2 block text-xs font-medium uppercase tracking-wider text-warm-400">
             {userPrimaryLens ? "Their lens" : "Second lens"}
           </label>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2" role="radiogroup" aria-labelledby="their-lens-label">
             {ALL_LENSES.map(({ slug, name }) => {
               const colors = LENS_COLORS[slug];
               const selected = theirLens === slug;
@@ -108,6 +110,8 @@ export function RelationshipHub({
                 <button
                   key={slug}
                   onClick={() => setTheirLens(slug)}
+                  role="radio"
+                  aria-checked={selected}
                   className="relative rounded-full px-4 py-2 text-sm font-medium transition-all"
                   style={{
                     backgroundColor: selected ? colors.DEFAULT : "transparent",

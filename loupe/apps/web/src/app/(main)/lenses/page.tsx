@@ -16,7 +16,7 @@ import { LensLibraryClient } from "./lens-library-client";
 import type { LensSlug } from "@loupe/types";
 
 export const metadata: Metadata = {
-  title: "Lens Library | Loupe",
+  title: "Lens Library",
   description:
     "Explore the eight Spiral Dynamics lenses — from survival instinct to holistic awareness. Understand yourself and the people around you.",
 };

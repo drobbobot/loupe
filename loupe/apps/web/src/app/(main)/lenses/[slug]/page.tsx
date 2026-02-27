@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     `Explore the ${displayName} lens in Spiral Dynamics.`;
 
   return {
-    title: `${displayName} | Lens Library | Loupe`,
+    title: `${displayName} Lens`,
     description,
   };
 }

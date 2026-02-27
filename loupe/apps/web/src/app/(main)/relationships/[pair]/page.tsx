@@ -6,6 +6,7 @@
 // The ?my= query param indicates which lens is "mine" for perspective framing.
 // ─────────────────────────────────────────────────────────────────────────────
 
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { RelationshipGuide } from "@/components/relationships/relationship-guide";
 import { getRelationship, getLensDisplayInfo } from "@/lib/relationship-data";
@@ -18,6 +19,24 @@ const VALID_SLUGS = new Set<string>([
 interface PageProps {
   params: Promise<{ pair: string }>;
   searchParams: Promise<{ my?: string }>;
+}
+
+function capitalize(s: string) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { pair } = await params;
+  const parts = pair.split("-");
+  if (parts.length !== 2) return { title: "Relationship not found" };
+
+  const nameA = capitalize(parts[0]);
+  const nameB = capitalize(parts[1]);
+
+  return {
+    title: `${nameA} & ${nameB} Relationship`,
+    description: `How ${nameA} and ${nameB} lenses relate, connect, and navigate their differences. A Spiral Dynamics relationship guide.`,
+  };
 }
 
 export default async function RelationshipDetailPage({

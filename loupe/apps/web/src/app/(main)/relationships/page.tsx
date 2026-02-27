@@ -8,9 +8,21 @@
 // then renders the client-side hub with optional pre-selection.
 // ─────────────────────────────────────────────────────────────────────────────
 
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { RelationshipHub } from "@/components/relationships/relationship-hub";
 import type { LensSlug } from "@loupe/types";
+
+export const metadata: Metadata = {
+  title: "Navigating Relationships",
+  description:
+    "Explore how different Spiral Dynamics lenses relate, connect, and sometimes clash. Understand the dynamics between any two worldviews.",
+  openGraph: {
+    title: "Navigating Relationships | Loupe",
+    description:
+      "Explore how different Spiral Dynamics lenses relate and connect.",
+  },
+};
 
 export default async function RelationshipsPage() {
   let primaryLens: LensSlug | null = null;

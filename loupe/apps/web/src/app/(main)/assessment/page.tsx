@@ -15,7 +15,7 @@ import { SEED_QUESTIONS } from "@/lib/assessment/questions";
 import { AssessmentFlow } from "@/components/assessment/assessment-flow";
 
 export const metadata: Metadata = {
-  title: "Find Your Lens | Loupe",
+  title: "Find Your Lens",
   description:
     "Discover which lens you see the world through. A 15-minute assessment that reveals your primary perspective.",
 };
