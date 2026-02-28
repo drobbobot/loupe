@@ -7,6 +7,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { SignOutButton } from "./sign-out-button";
+import { LoupeLogo } from "./ui/loupe-logo";
 
 export async function NavHeader() {
   const supabase = await createClient();
@@ -19,8 +20,9 @@ export async function NavHeader() {
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
         <Link
           href="/"
-          className="font-serif text-lg font-medium tracking-tight text-warm-900"
+          className="flex items-center gap-2 font-serif text-lg font-medium tracking-tight text-warm-900"
         >
+          <LoupeLogo size={24} />
           Loupe
         </Link>
 

@@ -18,6 +18,7 @@ import { ProfileClient } from "@/components/profile/profile-client";
 import { assembleProfile } from "@/lib/profile-data";
 import { getSeedLens } from "@/lib/lens-data";
 import { PORTRAITS } from "@/lib/assessment/portraits";
+import { LoupeLogo } from "@/components/ui/loupe-logo";
 import type { AssessmentResult, LensSlug, ConfidenceLevel } from "@loupe/types";
 
 export default async function HomePage() {
@@ -93,6 +94,9 @@ export default async function HomePage() {
         style={{ minHeight: "calc(100dvh - 3.5rem - 4rem)" }}
       >
         <div className="w-full max-w-lg text-center">
+          <div className="mb-8 flex justify-center">
+            <LoupeLogo size={120} animated />
+          </div>
           <h1 className="mb-6 font-serif text-4xl font-medium tracking-tight text-warm-900">
             Loupe
           </h1>
