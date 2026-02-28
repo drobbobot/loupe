@@ -56,8 +56,21 @@ export function LoupeLogo({ size = 32, animated = false }: LoupeLogoProps) {
   // SVG viewBox 132×122, each ellipse ~74px diameter in a 132-wide box
   const lensSize = size * 0.56;
 
-  // Offset between the two lens centers (from Figma: ~26px in 132-wide = ~20%)
-  const offset = size * 0.2;
+  // Distance from container center to each lens center.
+  // From Figma: two lens centers are ~30px apart in a 132-wide box,
+  // so each is ~15px (11.4%) from the midpoint.
+  const orbitRadius = size * 0.114;
+
+  // Position both lenses symmetrically around container center.
+  // Lens A: upper-left, Lens B: lower-right (matching Figma layout).
+  const lensAPos = {
+    top: size / 2 - orbitRadius - lensSize / 2,
+    left: size / 2 - orbitRadius - lensSize / 2,
+  };
+  const lensBPos = {
+    top: size / 2 + orbitRadius - lensSize / 2,
+    left: size / 2 + orbitRadius - lensSize / 2,
+  };
 
   // Shared lens styles
   const baseLensStyle = {
@@ -68,16 +81,6 @@ export function LoupeLogo({ size = 32, animated = false }: LoupeLogoProps) {
     backdropFilter: "blur(4px)",
     WebkitBackdropFilter: "blur(4px)",
     boxShadow: `0 ${size * 0.03}px ${size * 0.06}px rgba(0,0,0,0.08)`,
-  };
-
-  // Position: lens A top-left, lens B bottom-right (matching Figma overlap)
-  const lensAPos = {
-    top: 0,
-    left: 0,
-  };
-  const lensBPos = {
-    top: offset,
-    left: offset,
   };
 
   if (!animated) {

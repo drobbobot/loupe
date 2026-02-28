@@ -20,9 +20,11 @@ export async function NavHeader() {
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
         <Link
           href="/"
-          className="flex items-center gap-2 font-serif text-lg font-medium tracking-tight text-warm-900"
+          className="flex items-center gap-1.5 font-serif text-lg font-medium tracking-tight text-warm-900"
         >
-          <LoupeLogo size={24} />
+          <span className="translate-y-px">
+            <LoupeLogo size={22} />
+          </span>
           Loupe
         </Link>
 
