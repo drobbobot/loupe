@@ -19,9 +19,11 @@ interface LensGemProps {
   size?: number;
   /** Disable hover / touch interactivity (e.g. when used decoratively) */
   static?: boolean;
+  /** Slow continuous Y-axis spin to hint at interactivity */
+  spin?: boolean;
 }
 
-export function LensGem({ slug, size = 140, static: isStatic = false }: LensGemProps) {
+export function LensGem({ slug, size = 140, static: isStatic = false, spin = false }: LensGemProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [shimmer, setShimmer] = useState({ x: 38, y: 32 });
@@ -81,12 +83,16 @@ export function LensGem({ slug, size = 140, static: isStatic = false }: LensGemP
       {...interactiveHandlers}
     >
       <motion.div
-        animate={{ rotateX: tilt.x, rotateY: tilt.y }}
-        transition={{
-          type: "spring",
-          stiffness: active ? 280 : 140,
-          damping: active ? 14 : 22,
-        }}
+        animate={
+          spin && tilt.x === 0 && tilt.y === 0
+            ? { rotateY: [0, 360] }
+            : { rotateX: tilt.x, rotateY: tilt.y }
+        }
+        transition={
+          spin && tilt.x === 0 && tilt.y === 0
+            ? { rotateY: { duration: 6, repeat: Infinity, ease: "linear" } }
+            : { type: "spring", stiffness: active ? 280 : 140, damping: active ? 14 : 22 }
+        }
         style={{
           width: "100%",
           height: "100%",

@@ -19,6 +19,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import type { LensSlug } from "@loupe/types";
 import type { RelationshipSeed } from "@/lib/relationship-data";
+import { LensGem } from "@/components/ui/lens-gem";
 
 interface LensInfo {
   slug: LensSlug;
@@ -83,22 +84,37 @@ export function RelationshipGuide({
 
   return (
     <main className="pb-24">
-      {/* ── Hero ───────────────────────────────────────────────────────── */}
-      <div className="relative overflow-hidden">
-        {/* Split colour background */}
-        <div className="flex h-36">
-          <div className="flex-1" style={{ backgroundColor: infoA.colors.bg }} />
-          <div className="flex-1" style={{ backgroundColor: infoB.colors.bg }} />
-        </div>
+      {/* ── Hero — overlapping LensGems with gradient band ────────────── */}
+      <div className="relative overflow-hidden pb-4">
+        {/* Gradient colour band behind the gems */}
+        <div
+          className="absolute inset-x-0 top-0 h-56"
+          style={{
+            background: `linear-gradient(135deg, ${infoA.colors.DEFAULT}18 0%, ${infoB.colors.DEFAULT}18 100%)`,
+          }}
+        />
 
-        {/* Floating pair card */}
-        <div className="absolute inset-x-0 top-8 flex flex-col items-center">
-          <div className="flex items-center gap-3">
-            <LensDot color={infoA.colors.DEFAULT} name={infoA.name} />
-            <span className="text-sm font-medium text-warm-500">×</span>
-            <LensDot color={infoB.colors.DEFAULT} name={infoB.name} />
+        {/* LensGem pair — overlapping Venn-style */}
+        <div className="relative flex flex-col items-center pt-8">
+          <div className="flex items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <LensGem slug={infoA.slug} size={120} />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              style={{ marginLeft: -32 }}
+            >
+              <LensGem slug={infoB.slug} size={120} />
+            </motion.div>
           </div>
-          <h1 className="mt-3 font-serif text-2xl font-medium text-warm-900">
+
+          <h1 className="mt-4 font-serif text-2xl font-medium text-warm-900">
             {isSameLens
               ? `Two ${infoA.name} Lenses`
               : `${infoA.name} & ${infoB.name}`}

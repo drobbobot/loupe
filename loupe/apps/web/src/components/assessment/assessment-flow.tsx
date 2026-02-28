@@ -12,8 +12,9 @@
 
 import { useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { AssessmentQuestion } from "@loupe/types";
+import type { AssessmentQuestion, LensSlug } from "@loupe/types";
 import { useAssessmentStore } from "@/stores/assessment";
+import { LensGem } from "@/components/ui/lens-gem";
 import { ProgressBar } from "./progress-bar";
 import { SectionTransition } from "./section-transition";
 import { QuestionCard } from "./question-card";
@@ -195,18 +196,35 @@ export function AssessmentFlow({ questions }: AssessmentFlowProps) {
         <SavePrompt result={store.result} />
       )}
 
-      {/* TODO: store.phase === "result" → full result view (Step 3) */}
       {store.phase === "result" && store.result && (
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[var(--color-bg)] px-6 text-center">
-          <p className="text-sm uppercase tracking-widest text-warm-400">
-            Your full result
-          </p>
-          <h1 className="mt-2 font-serif text-4xl font-medium text-warm-900 capitalize">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <LensGem
+              slug={store.result.primaryLens as LensSlug}
+              size={180}
+              spin
+            />
+          </motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="mt-6 text-sm uppercase tracking-widest text-warm-400"
+          >
+            Your lens
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            className="mt-2 font-serif text-4xl font-medium text-warm-900 capitalize"
+          >
             {store.result.primaryLens}
-          </h1>
-          <p className="mt-4 text-warm-600">
-            Full result view coming in the next build step.
-          </p>
+          </motion.h1>
         </div>
       )}
     </div>
