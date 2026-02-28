@@ -76,12 +76,17 @@ export default async function HomePage() {
 
   // ── Post-assessment: show profile ──────────────────────────────────────
   if (profile) {
-    return <ProfileClient profile={profile} completedAt={completedAt} />;
+    return (
+      <>
+        <ProfileClient profile={profile} completedAt={completedAt} />
+        <SiteCredits />
+      </>
+    );
   }
 
   // ── Pre-assessment: show landing page ──────────────────────────────────
   return (
-    <main className="pb-24">
+    <main>
       {/* ── Hero ──────────────────────────────────────────────────────── */}
       <section
         className="flex flex-col items-center justify-center px-6"
@@ -224,6 +229,8 @@ export default async function HomePage() {
           Find your lens
         </Link>
       </section>
+
+      <SiteCredits />
     </main>
   );
 }
@@ -252,5 +259,42 @@ function ReasonCard({ title, body }: { title: string; body: string }) {
       <h3 className="text-sm font-semibold text-warm-800">{title}</h3>
       <p className="mt-2 text-sm leading-relaxed text-warm-500">{body}</p>
     </div>
+  );
+}
+
+function SiteCredits() {
+  return (
+    <footer className="mx-auto max-w-lg px-6 pb-24 pt-16">
+      <p className="text-center text-xs leading-relaxed text-warm-300">
+        Spiral Dynamics was developed from the foundational research of{" "}
+        <a
+          href="https://en.wikipedia.org/wiki/Clare_W._Graves"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-2 transition-colors hover:text-warm-500"
+        >
+          Clare Graves
+        </a>
+        , and expanded by{" "}
+        <a
+          href="https://www.spiraldynamics.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-2 transition-colors hover:text-warm-500"
+        >
+          Don Beck &amp; Chris Cowan
+        </a>
+        . The language and framing throughout Loupe draws from the work of{" "}
+        <a
+          href="https://robbell.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-2 transition-colors hover:text-warm-500"
+        >
+          Rob &amp; Trace Bell
+        </a>
+        .
+      </p>
+    </footer>
   );
 }
