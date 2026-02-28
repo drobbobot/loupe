@@ -1,22 +1,18 @@
 "use client";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SpiralMap — Full-screen 3D glassmorphic helix visualisation
+// SpiralMap — True outward-spiral visualisation (matching Figma design)
 //
 // Design features:
+//   - True expanding spiral path: nodes grow from Beige (smallest, center)
+//     to Turquoise (largest, outer edge)
+//   - Glassmorphic double-ellipse nodes with backdrop blur and depth shadow
+//   - Animated spiral path draw + looping "traveling light" flow overlay
+//   - Centre dashed line separating Internal / External
 //   - Full-screen immersive SVG between NavHeader and BottomNav
-//   - Glassmorphic ellipse nodes with backdrop blur, gradient fills, drop shadows
-//   - 3D perspective: nodes + path narrower at top (Beige), wider at bottom (Turquoise)
-//   - Internal/external direction indicators (left = inward, right = outward)
-//   - Background depth with radial gradient vignette
-//   - Segmented path with tapered stroke width for 3D helix illusion
-//   - Framer Motion: sequential path draw + staggered node entrance
 //
-// Implementation:
-//   - Pure SVG + React (no D3)
-//   - foreignObject + backdrop-filter for glassmorphic blur
-//   - Framer Motion for all animations
-//   - Responsive: viewBox scales to fill container
+// The spiral path and node coordinates are extracted directly from the
+// Figma design (Frame 93.svg) for pixel-accurate reproduction.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { motion } from "framer-motion";
@@ -30,100 +26,37 @@ interface SpiralMapProps {
 
 // ── Layout ──────────────────────────────────────────────────────────────────
 
-const VIEW_W = 420;
-const VIEW_H = 720;
-const PAD_X = 50;
-const PAD_Y = 60;
+const VIEW_W = 1032;
+const VIEW_H = 1178;
 
-// Each node: normalized x/y (0→1), base ellipse radii, perspective scale
+// The true outward spiral path — extracted from the Figma design (Frame 93.svg)
+const SPIRAL_PATH =
+  "M474 583.5C464.086 546.5 522.5 526 558.5 567C594.5 608 566.5 724.5 444.5 699C322 655.5 340 506 414 462.5C510 384.5 724.5 454.5 685 663.5C650.738 872.729 259.349 886.41 237.5 592.5C228.291 311.869 557.841 234.468 707.5 378C857.159 521.532 834.381 726.745 707.5 850C549.435 1007.55 218.16 937.313 146.5 713.5C64.6075 499.056 182.006 252.028 439 201.5C787.5 155 974.5 479.5 926 691.5C877.5 903.5 704.5 1121.5 314.5 1036";
+
+// Node positions and sizes from the Figma design — extracted from the ellipse
+// elements in Frame 93.svg. Each node has a shadow ellipse (offset +shadowDy)
+// and a main ellipse. Nodes grow progressively from Beige (center) outward.
 const NODE_LAYOUT: Record<
   LensSlug,
-  { x: number; y: number; rx: number; ry: number; scale: number }
+  { cx: number; cy: number; rx: number; ry: number; shadowDy: number }
 > = {
-  beige:     { x: 0.34, y: 0.04, rx: 40, ry: 17, scale: 0.58 },
-  purple:    { x: 0.69, y: 0.15, rx: 42, ry: 18, scale: 0.65 },
-  red:       { x: 0.28, y: 0.26, rx: 45, ry: 19, scale: 0.72 },
-  blue:      { x: 0.74, y: 0.37, rx: 48, ry: 20, scale: 0.78 },
-  orange:    { x: 0.25, y: 0.48, rx: 50, ry: 21, scale: 0.84 },
-  green:     { x: 0.76, y: 0.59, rx: 53, ry: 22, scale: 0.90 },
-  yellow:    { x: 0.50, y: 0.73, rx: 56, ry: 24, scale: 0.95 },
-  turquoise: { x: 0.50, y: 0.89, rx: 60, ry: 26, scale: 1.00 },
-};
-
-const LENS_NAMES: Record<LensSlug, string> = {
-  beige: "Beige", purple: "Purple", red: "Red", blue: "Blue",
-  orange: "Orange", green: "Green", yellow: "Yellow", turquoise: "Turquoise",
+  beige:     { cx: 474, cy: 582.843, rx: 20,     ry: 19.843, shadowDy: 2.314 },
+  purple:    { cx: 562, cy: 646.611, rx: 24,     ry: 23.811, shadowDy: 2.778 },
+  red:       { cx: 370, cy: 518.333, rx: 28.8,   ry: 28.573, shadowDy: 3.334 },
+  blue:      { cx: 666, cy: 710,     rx: 34.56,  ry: 34.288, shadowDy: 4.0   },
+  orange:    { cx: 250, cy: 477.6,   rx: 41.472, ry: 41.146, shadowDy: 4.8   },
+  green:     { cx: 786, cy: 725.12,  rx: 49.764, ry: 49.372, shadowDy: 5.76  },
+  yellow:    { cx: 114, cy: 476.544, rx: 59.718, ry: 59.248, shadowDy: 6.912 },
+  turquoise: { cx: 922, cy: 699.852, rx: 71.664, ry: 71.1,   shadowDy: 8.295 },
 };
 
 const LENSES_ORDERED: LensSlug[] = [
   "beige", "purple", "red", "blue", "orange", "green", "yellow", "turquoise",
 ];
 
-// Self / Community / Systems zone bands
-const GROUP_ZONES = [
-  { label: "Self",      y1: 0,    y2: 0.33 },
-  { label: "Community", y1: 0.33, y2: 0.55 },
-  { label: "Systems",   y1: 0.55, y2: 1.0  },
-];
-
-// ── Helpers ─────────────────────────────────────────────────────────────────
-
-function lerp(a: number, b: number, t: number) {
-  return a + (b - a) * t;
-}
-
-function toSVG(nx: number, ny: number) {
-  return {
-    x: PAD_X + nx * (VIEW_W - PAD_X * 2),
-    y: PAD_Y + ny * (VIEW_H - PAD_Y * 2),
-  };
-}
-
 // ── Component ───────────────────────────────────────────────────────────────
 
 export function SpiralMap({ primaryLens, secondaryLens }: SpiralMapProps) {
-  // Pre-compute node positions and sizes
-  const nodes = LENSES_ORDERED.map((slug) => {
-    const layout = NODE_LAYOUT[slug];
-    const pos = toSVG(layout.x, layout.y);
-    const rx = layout.rx * layout.scale;
-    const ry = layout.ry * layout.scale;
-    return { slug, pos, rx, ry, scale: layout.scale };
-  });
-
-  // Build path segments between consecutive nodes
-  const segments: Array<{
-    d: string;
-    strokeW: number;
-    highlightW: number;
-  }> = [];
-
-  for (let i = 0; i < nodes.length - 1; i++) {
-    const a = nodes[i];
-    const b = nodes[i + 1];
-    // Control point: biased toward the "from" node's x for smooth S-curves
-    const cpx = (a.pos.x * 0.6 + b.pos.x * 0.4);
-    const cpy = (a.pos.y + b.pos.y) / 2;
-    const d = `M ${a.pos.x} ${a.pos.y} Q ${cpx} ${cpy}, ${b.pos.x} ${b.pos.y}`;
-    const t = (a.pos.y + b.pos.y) / 2 / VIEW_H;
-    segments.push({
-      d,
-      strokeW: lerp(1.5, 5.5, t),
-      highlightW: lerp(0.5, 2, t),
-    });
-  }
-
-  const centerX = VIEW_W / 2;
-
-  // Single continuous path for the looping flow animation overlay
-  const flowPath = nodes.reduce((path, node, i) => {
-    if (i === 0) return `M ${node.pos.x} ${node.pos.y}`;
-    const a = nodes[i - 1];
-    const cpx = a.pos.x * 0.6 + node.pos.x * 0.4;
-    const cpy = (a.pos.y + node.pos.y) / 2;
-    return `${path} Q ${cpx} ${cpy} ${node.pos.x} ${node.pos.y}`;
-  }, "");
-
   return (
     <div className="h-full w-full">
       <svg
@@ -135,41 +68,29 @@ export function SpiralMap({ primaryLens, secondaryLens }: SpiralMapProps) {
       >
         {/* ── Defs ───────────────────────────────────────────────── */}
         <defs>
-          {/* Background radial gradient — subtle vignette for depth */}
-          <radialGradient id="bg-depth" cx="0.5" cy="0.55" r="0.65" fx="0.5" fy="0.5">
-            <stop offset="0%" stopColor="#FAF8F5" stopOpacity="1" />
-            <stop offset="70%" stopColor="#F5F1EB" stopOpacity="1" />
-            <stop offset="100%" stopColor="#EDE8DF" stopOpacity="1" />
-          </radialGradient>
-
-          {/* Per-lens defs: fill gradient, stroke gradient, drop shadow */}
           {LENSES_ORDERED.map((slug) => {
             const c = LENS_COLORS[slug];
+            const node = NODE_LAYOUT[slug];
             return (
               <g key={`defs-${slug}`}>
-                {/* Fill: lens color at 30% → dark shade at 40% */}
-                <linearGradient id={`fill-${slug}`} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor={c.DEFAULT} stopOpacity="0.30" />
-                  <stop offset="100%" stopColor={c.text} stopOpacity="0.40" />
-                </linearGradient>
-
-                {/* Stroke: lens color → white → dark */}
+                {/* Stroke gradient: lens color → white → lens color (Figma pattern) */}
                 <linearGradient id={`stroke-${slug}`} x1="0.3" y1="0" x2="0.7" y2="1">
                   <stop offset="0%" stopColor={c.DEFAULT} />
                   <stop offset="50%" stopColor="#FFFFFF" />
-                  <stop offset="71%" stopColor={c.text} />
+                  <stop offset="71.15%" stopColor={c.DEFAULT} />
                 </linearGradient>
 
-                {/* Drop shadow */}
+                {/* Drop shadow filter — scaled to node size */}
                 <filter
                   id={`shadow-${slug}`}
-                  x="-25%" y="-30%"
-                  width="150%" height="180%"
+                  x="-30%" y="-30%"
+                  width="160%" height="180%"
                   colorInterpolationFilters="sRGB"
                 >
                   <feDropShadow
-                    dx="0" dy="3"
-                    stdDeviation="6"
+                    dx="0"
+                    dy={node.shadowDy}
+                    stdDeviation={node.rx * 0.4}
                     floodColor="#000000"
                     floodOpacity="0.08"
                   />
@@ -179,171 +100,100 @@ export function SpiralMap({ primaryLens, secondaryLens }: SpiralMapProps) {
           })}
         </defs>
 
-        {/* Background is handled by CSS radial gradient on parent container */}
-
-        {/* Zone bands with soft fills */}
-        {GROUP_ZONES.map((zone, i) => {
-          const y1 = zone.y1 * VIEW_H;
-          const y2 = zone.y2 * VIEW_H;
-          return (
-            <g key={zone.label}>
-              {/* Subtle alternating background tone */}
-              {i === 1 && (
-                <rect
-                  x={0} y={y1}
-                  width={VIEW_W} height={y2 - y1}
-                  fill="#F5F1EB"
-                  opacity={0.35}
-                />
-              )}
-              {/* Zone divider line */}
-              {zone.y1 > 0 && (
-                <line
-                  x1={PAD_X + 20} y1={y1}
-                  x2={VIEW_W - PAD_X - 20} y2={y1}
-                  stroke="#D6D0C7"
-                  strokeWidth="0.5"
-                  opacity="0.35"
-                />
-              )}
-              {/* Zone label — right edge */}
-              <text
-                x={VIEW_W - 12}
-                y={y1 + 16}
-                textAnchor="end"
-                fill="#B8B0A5"
-                fontSize="8"
-                fontFamily="system-ui, sans-serif"
-                letterSpacing="0.12em"
-                opacity="0.6"
-              >
-                {zone.label.toUpperCase()}
-              </text>
-            </g>
-          );
-        })}
-
-        {/* Centre axis — dashed vertical line */}
+        {/* ── Centre dashed line ──────────────────────────────────── */}
         <line
-          x1={centerX} y1={PAD_Y - 10}
-          x2={centerX} y2={VIEW_H - PAD_Y + 10}
+          x1={VIEW_W / 2}
+          y1={143.5}
+          x2={VIEW_W / 2}
+          y2={1122}
           stroke="#D6D0C7"
-          strokeWidth="0.8"
-          strokeDasharray="3 8"
-          opacity="0.25"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeDasharray="5 20"
+          opacity="0.4"
         />
 
-        {/* Direction labels */}
+        {/* ── Spiral path ─────────────────────────────────────────── */}
+        <motion.path
+          d={SPIRAL_PATH}
+          fill="none"
+          stroke="#D6D0C7"
+          strokeWidth={2.65}
+          strokeLinecap="round"
+          opacity={0.5}
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 2.5, ease: "easeOut" }}
+        />
+
+        {/* ── Looping flow animation overlays ──────────────────────── */}
+        <motion.path
+          d={SPIRAL_PATH}
+          fill="none"
+          stroke="white"
+          strokeWidth={3}
+          strokeLinecap="round"
+          strokeDasharray="12 64"
+          opacity={0.25}
+          animate={{ strokeDashoffset: [0, -76] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+        />
+        <motion.path
+          d={SPIRAL_PATH}
+          fill="none"
+          stroke="#D6D0C7"
+          strokeWidth={1.5}
+          strokeLinecap="round"
+          strokeDasharray="4 96"
+          opacity={0.4}
+          animate={{ strokeDashoffset: [0, -100] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+        />
+
+        {/* ── Direction labels at bottom ───────────────────────────── */}
         <text
-          x={PAD_X + 12}
-          y={PAD_Y - 16}
+          x={435}
+          y={1098}
           fill="#B8B0A5"
-          fontSize="8.5"
+          fontSize="13"
           fontFamily="system-ui, sans-serif"
-          letterSpacing="0.15em"
-          opacity="0.5"
-        >
-          INTERNAL
-        </text>
-        <text
-          x={VIEW_W - PAD_X - 12}
-          y={PAD_Y - 16}
-          textAnchor="end"
-          fill="#B8B0A5"
-          fontSize="8.5"
-          fontFamily="system-ui, sans-serif"
-          letterSpacing="0.15em"
-          opacity="0.5"
+          letterSpacing="0.12em"
         >
           EXTERNAL
         </text>
-
-        {/* Small directional arrows beside labels */}
-        <path
-          d={`M ${PAD_X + 8} ${PAD_Y - 20} l -5 3 l 5 3`}
-          fill="none" stroke="#B8B0A5" strokeWidth="1" opacity="0.4"
-          strokeLinecap="round" strokeLinejoin="round"
-        />
-        <path
-          d={`M ${VIEW_W - PAD_X - 8} ${PAD_Y - 20} l 5 3 l -5 3`}
-          fill="none" stroke="#B8B0A5" strokeWidth="1" opacity="0.4"
-          strokeLinecap="round" strokeLinejoin="round"
-        />
-
-        {/* ── Looping flow overlay — infinite traveling light ──── */}
-        <motion.path
-          d={flowPath}
-          fill="none"
-          stroke="white"
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeDasharray="6 32"
-          opacity={0.3}
-          animate={{ strokeDashoffset: [0, -38] }}
-          transition={{ duration: 3.5, repeat: Infinity, ease: "linear" }}
-        />
-        <motion.path
-          d={flowPath}
-          fill="none"
-          stroke="#D6D0C7"
-          strokeWidth={1}
-          strokeLinecap="round"
-          strokeDasharray="2 48"
-          opacity={0.5}
-          animate={{ strokeDashoffset: [0, -50] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-        />
-
-        {/* ── 3D Spiral Path (segmented, tapered) ─────────────── */}
-        {segments.map((seg, i) => (
-          <g key={`seg-${i}`}>
-            {/* Main stroke — warm muted, width tapers with perspective */}
-            <motion.path
-              d={seg.d}
-              fill="none"
-              stroke="#D6D0C7"
-              strokeWidth={seg.strokeW}
-              strokeLinecap="round"
-              opacity={0.3}
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{
-                duration: 0.35,
-                delay: 0.3 + i * 0.15,
-                ease: "easeOut",
-              }}
-            />
-            {/* Highlight stroke — white, narrow, 3D rim */}
-            <motion.path
-              d={seg.d}
-              fill="none"
-              stroke="white"
-              strokeWidth={seg.highlightW}
-              strokeLinecap="round"
-              opacity={0.5}
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{
-                duration: 0.35,
-                delay: 0.35 + i * 0.15,
-                ease: "easeOut",
-              }}
-            />
-          </g>
-        ))}
+        <text
+          x={540}
+          y={1098}
+          fill="#B8B0A5"
+          fontSize="13"
+          fontFamily="system-ui, sans-serif"
+          letterSpacing="0.12em"
+        >
+          INTERNAL
+        </text>
 
         {/* ── Lens Nodes ─────────────────────────────────────────── */}
-        {nodes.map(({ slug, pos, rx, ry }, index) => {
+        {LENSES_ORDERED.map((slug, index) => {
+          const node = NODE_LAYOUT[slug];
           const color = LENS_COLORS[slug];
           const isPrimary = primaryLens === slug;
           const isSecondary = secondaryLens === slug;
 
-          // Slightly enlarge primary/secondary
-          const finalRx = isPrimary ? rx * 1.15 : isSecondary ? rx * 1.05 : rx;
-          const finalRy = isPrimary ? ry * 1.15 : isSecondary ? ry * 1.05 : ry;
+          // Scale up primary/secondary slightly
+          const scale = isPrimary ? 1.12 : isSecondary ? 1.05 : 1;
+          const rx = node.rx * scale;
+          const ry = node.ry * scale;
 
-          // Font size scales with node size
-          const fontSize = Math.round(8 + (finalRx / 60) * 5);
+          // Blur radius proportional to node size (from Figma)
+          const blur = Math.max(4, rx * 0.2);
+
+          // Minimum touch target — invisible hit area for small inner nodes
+          const minHitR = 44;
+          const hitRx = Math.max(rx + 4, minHitR);
+          const hitRy = Math.max(ry + 4, minHitR);
+
+          // Stroke width proportional to node size
+          const strokeW = Math.max(1, rx * 0.05);
 
           return (
             <Link key={slug} href={`/lenses/${slug}`}>
@@ -351,33 +201,43 @@ export function SpiralMap({ primaryLens, secondaryLens }: SpiralMapProps) {
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{
-                  duration: 0.45,
-                  delay: 0.5 + index * 0.12,
+                  duration: 0.5,
+                  delay: 0.8 + index * 0.15,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                style={{ transformOrigin: `${pos.x}px ${pos.y}px` }}
+                style={{ transformOrigin: `${node.cx}px ${node.cy}px` }}
               >
                 {/* Pulse ring for primary lens */}
                 {isPrimary && (
                   <ellipse
-                    cx={pos.x}
-                    cy={pos.y}
-                    rx={finalRx + 8}
-                    ry={finalRy + 5}
+                    cx={node.cx}
+                    cy={node.cy}
+                    rx={rx * 1.3}
+                    ry={ry * 1.3}
                     fill="none"
                     stroke={color.DEFAULT}
-                    strokeWidth={1.5}
+                    strokeWidth={Math.max(1.5, rx * 0.04)}
                     opacity={0.25}
                     className="animate-lens-pulse"
                   />
                 )}
 
-                {/* Backdrop blur layer — glassmorphic effect */}
+                {/* Invisible hit area for touch targets */}
+                <ellipse
+                  cx={node.cx}
+                  cy={node.cy}
+                  rx={hitRx}
+                  ry={hitRy}
+                  fill="transparent"
+                  style={{ cursor: "pointer" }}
+                />
+
+                {/* ── Shadow ellipse (offset down by shadowDy) ──────── */}
                 <foreignObject
-                  x={pos.x - finalRx - 2}
-                  y={pos.y - finalRy - 2}
-                  width={(finalRx + 2) * 2}
-                  height={(finalRy + 2) * 2}
+                  x={node.cx - rx - 2}
+                  y={node.cy + node.shadowDy - ry - 2}
+                  width={(rx + 2) * 2}
+                  height={(ry + 2) * 2}
                 >
                   <div
                     // @ts-expect-error xmlns required for foreignObject HTML
@@ -385,62 +245,76 @@ export function SpiralMap({ primaryLens, secondaryLens }: SpiralMapProps) {
                     style={{
                       width: "100%",
                       height: "100%",
-                      backdropFilter: "blur(12px)",
-                      WebkitBackdropFilter: "blur(12px)",
+                      backdropFilter: `blur(${blur}px)`,
+                      WebkitBackdropFilter: `blur(${blur}px)`,
                       clipPath: "ellipse(50% 50% at 50% 50%)",
                     }}
                   />
                 </foreignObject>
-
-                {/* Main ellipse: gradient fill + gradient stroke + drop shadow */}
-                <motion.ellipse
-                  cx={pos.x}
-                  cy={pos.y}
-                  rx={finalRx}
-                  ry={finalRy}
-                  fill={`url(#fill-${slug})`}
+                <ellipse
+                  cx={node.cx}
+                  cy={node.cy + node.shadowDy}
+                  rx={rx}
+                  ry={ry}
+                  fill={color.DEFAULT}
+                  fillOpacity="0.4"
                   stroke={`url(#stroke-${slug})`}
-                  strokeWidth={1}
-                  strokeOpacity={0.2}
+                  strokeWidth={strokeW}
+                  strokeOpacity="0.2"
+                />
+
+                {/* ── Main ellipse (glassmorphic) ──────────────────── */}
+                <foreignObject
+                  x={node.cx - rx - 2}
+                  y={node.cy - ry - 2}
+                  width={(rx + 2) * 2}
+                  height={(ry + 2) * 2}
+                >
+                  <div
+                    // @ts-expect-error xmlns required for foreignObject HTML
+                    xmlns="http://www.w3.org/1999/xhtml"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      backdropFilter: `blur(${blur}px)`,
+                      WebkitBackdropFilter: `blur(${blur}px)`,
+                      clipPath: "ellipse(50% 50% at 50% 50%)",
+                    }}
+                  />
+                </foreignObject>
+                <motion.ellipse
+                  cx={node.cx}
+                  cy={node.cy}
+                  rx={rx}
+                  ry={ry}
+                  fill={color.DEFAULT}
+                  fillOpacity="0.4"
+                  stroke={`url(#stroke-${slug})`}
+                  strokeWidth={strokeW}
+                  strokeOpacity="0.2"
                   filter={`url(#shadow-${slug})`}
                   style={{ cursor: "pointer" }}
                   whileHover={{ scaleX: 1.08, scaleY: 1.08 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 />
 
-                {/* Lens name — centred on ellipse */}
-                <text
-                  x={pos.x}
-                  y={pos.y + 1}
-                  textAnchor="middle"
-                  dominantBaseline="central"
-                  fill={color.text}
-                  fontSize={fontSize}
-                  fontFamily="system-ui, sans-serif"
-                  fontWeight={isPrimary ? "600" : "500"}
-                  style={{ pointerEvents: "none" }}
-                  opacity={isPrimary ? 1 : 0.85}
-                >
-                  {LENS_NAMES[slug]}
-                </text>
-
-                {/* "You" badge below primary lens */}
+                {/* "You" badge for primary lens */}
                 {isPrimary && (
                   <g>
                     <rect
-                      x={pos.x - 15}
-                      y={pos.y + finalRy + 5}
-                      width={30}
-                      height={14}
-                      rx={7}
+                      x={node.cx - rx * 0.45}
+                      y={node.cy + ry + rx * 0.15}
+                      width={rx * 0.9}
+                      height={Math.max(14, rx * 0.35)}
+                      rx={Math.max(7, rx * 0.175)}
                       fill={color.DEFAULT}
                     />
                     <text
-                      x={pos.x}
-                      y={pos.y + finalRy + 13}
+                      x={node.cx}
+                      y={node.cy + ry + rx * 0.15 + Math.max(14, rx * 0.35) * 0.72}
                       textAnchor="middle"
                       fill="white"
-                      fontSize="7"
+                      fontSize={Math.max(7, rx * 0.17)}
                       fontFamily="system-ui, sans-serif"
                       fontWeight="600"
                       style={{ pointerEvents: "none" }}
@@ -453,9 +327,9 @@ export function SpiralMap({ primaryLens, secondaryLens }: SpiralMapProps) {
                 {/* Secondary marker dot */}
                 {isSecondary && (
                   <circle
-                    cx={pos.x + finalRx - 2}
-                    cy={pos.y - finalRy + 2}
-                    r={5}
+                    cx={node.cx + rx * 0.8}
+                    cy={node.cy - ry * 0.8}
+                    r={Math.max(5, rx * 0.14)}
                     fill={color.DEFAULT}
                     stroke="white"
                     strokeWidth={1.5}
