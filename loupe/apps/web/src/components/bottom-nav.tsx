@@ -29,7 +29,7 @@ const TABS = [
     // Spiral/helix icon
     icon: (
       <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-        <path d="M11 2C6 2 3 5 3 8C3 12 7 14 11 14C15 14 19 12 19 16C19 19 16 20 11 20" />
+        <path d="M11 11 C11 9 13 8 14.5 9 C16 10 16 12.5 14 13.5 C12 14.5 9.5 13.5 9 11.5 C8.5 9 10 6.5 12.5 6 C16 5 19 7.5 19 11 C19 15.5 15.5 18.5 11 19 C6 19.5 3 15.5 3 11 C3 5.5 7.5 2 13 2" />
       </svg>
     ),
   },
@@ -38,8 +38,8 @@ const TABS = [
     href: "/relationships",
     icon: (
       <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="8" cy="8" r="4" />
-        <circle cx="14" cy="14" r="4" />
+        <circle cx="9" cy="11" r="5" />
+        <circle cx="15" cy="11" r="5" />
       </svg>
     ),
   },

@@ -10,26 +10,19 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { motion } from "framer-motion";
-import { LENS_COLORS, LENS_TAGS, type LensSlug } from "@loupe/types";
+import { LENS_COLORS, LENS_FOCUS, LENS_TAGS, type LensSlug } from "@loupe/types";
+import { LensGem } from "@/components/ui/lens-gem";
 
 interface LensProfileHeaderProps {
   slug: LensSlug;
   displayName: string;
   tagline: string;
-  group: "me" | "we" | "everybody";
 }
-
-const GROUP_LABELS: Record<string, string> = {
-  me: "Me",
-  we: "We",
-  everybody: "Everybody",
-};
 
 export function LensProfileHeader({
   slug,
   displayName,
   tagline,
-  group,
 }: LensProfileHeaderProps) {
   const colors = LENS_COLORS[slug];
 
@@ -41,15 +34,25 @@ export function LensProfileHeader({
       className="relative flex min-h-[50vh] flex-col items-center justify-center px-6 py-16 text-center"
       style={{ backgroundColor: colors.bg }}
     >
-      {/* Group badge */}
+      {/* Interactive lens gem */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.7 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="mb-8"
+      >
+        <LensGem slug={slug} size={140} />
+      </motion.div>
+
+      {/* Focus badge */}
       <motion.span
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="mb-4 rounded-full px-3 py-1 text-xs font-medium uppercase tracking-widest"
+        className="mb-4 rounded-full px-3 py-1 text-xs font-medium tracking-wide"
         style={{ backgroundColor: `${colors.DEFAULT}15`, color: colors.text }}
       >
-        {GROUP_LABELS[group]}
+        {LENS_FOCUS[slug]}
       </motion.span>
 
       {/* Lens name — display typography */}
@@ -96,3 +99,5 @@ export function LensProfileHeader({
     </motion.div>
   );
 }
+
+

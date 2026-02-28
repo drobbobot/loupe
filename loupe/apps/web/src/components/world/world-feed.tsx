@@ -63,7 +63,7 @@ export function WorldFeed({ articles, userPrimaryLens }: WorldFeedProps) {
 
       {/* ── Lens filters ────────────────────────────────────────────────── */}
       <div className="mt-5 px-6" role="group" aria-label="Filter articles by lens">
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap justify-center gap-1.5">
           <FilterPill
             label="All"
             active={activeLens === null}

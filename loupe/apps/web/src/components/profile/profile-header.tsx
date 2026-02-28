@@ -16,6 +16,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { motion } from "framer-motion";
+import { LENS_FOCUS } from "@loupe/types";
 import type { ProfileData } from "@/lib/profile-data";
 
 interface ProfileHeaderProps {
@@ -24,11 +25,6 @@ interface ProfileHeaderProps {
 }
 
 export function ProfileHeader({ profile, onShare }: ProfileHeaderProps) {
-  const GROUP_LABELS: Record<string, string> = {
-    me: "Me",
-    we: "We",
-    everybody: "Everybody",
-  };
 
   return (
     <motion.section
@@ -48,7 +44,7 @@ export function ProfileHeader({ profile, onShare }: ProfileHeaderProps) {
       />
 
       <div className="relative z-10 mx-auto max-w-2xl">
-        {/* Group badge */}
+        {/* Focus badge */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -56,13 +52,13 @@ export function ProfileHeader({ profile, onShare }: ProfileHeaderProps) {
           className="mb-3"
         >
           <span
-            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium uppercase tracking-wider"
+            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium tracking-wide"
             style={{
               backgroundColor: `${profile.colours.DEFAULT}20`,
               color: profile.colours.text,
             }}
           >
-            {GROUP_LABELS[profile.group]} lens
+            {LENS_FOCUS[profile.slug]}
           </span>
         </motion.div>
 

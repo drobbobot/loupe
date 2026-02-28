@@ -59,11 +59,11 @@ const LENSES_ORDERED: LensSlug[] = [
   "beige", "purple", "red", "blue", "orange", "green", "yellow", "turquoise",
 ];
 
-// Me / We / Everybody zone bands
+// Self / Community / Systems zone bands
 const GROUP_ZONES = [
-  { label: "Me",        y1: 0,    y2: 0.33 },
-  { label: "We",        y1: 0.33, y2: 0.55 },
-  { label: "Everybody", y1: 0.55, y2: 1.0  },
+  { label: "Self",      y1: 0,    y2: 0.33 },
+  { label: "Community", y1: 0.33, y2: 0.55 },
+  { label: "Systems",   y1: 0.55, y2: 1.0  },
 ];
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
@@ -114,6 +114,15 @@ export function SpiralMap({ primaryLens, secondaryLens }: SpiralMapProps) {
   }
 
   const centerX = VIEW_W / 2;
+
+  // Single continuous path for the looping flow animation overlay
+  const flowPath = nodes.reduce((path, node, i) => {
+    if (i === 0) return `M ${node.pos.x} ${node.pos.y}`;
+    const a = nodes[i - 1];
+    const cpx = a.pos.x * 0.6 + node.pos.x * 0.4;
+    const cpy = (a.pos.y + node.pos.y) / 2;
+    return `${path} Q ${cpx} ${cpy} ${node.pos.x} ${node.pos.y}`;
+  }, "");
 
   return (
     <div className="h-full w-full">
@@ -259,6 +268,30 @@ export function SpiralMap({ primaryLens, secondaryLens }: SpiralMapProps) {
           d={`M ${VIEW_W - PAD_X - 8} ${PAD_Y - 20} l 5 3 l -5 3`}
           fill="none" stroke="#B8B0A5" strokeWidth="1" opacity="0.4"
           strokeLinecap="round" strokeLinejoin="round"
+        />
+
+        {/* ── Looping flow overlay — infinite traveling light ──── */}
+        <motion.path
+          d={flowPath}
+          fill="none"
+          stroke="white"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeDasharray="6 32"
+          opacity={0.3}
+          animate={{ strokeDashoffset: [0, -38] }}
+          transition={{ duration: 3.5, repeat: Infinity, ease: "linear" }}
+        />
+        <motion.path
+          d={flowPath}
+          fill="none"
+          stroke="#D6D0C7"
+          strokeWidth={1}
+          strokeLinecap="round"
+          strokeDasharray="2 48"
+          opacity={0.5}
+          animate={{ strokeDashoffset: [0, -50] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
         />
 
         {/* ── 3D Spiral Path (segmented, tapered) ─────────────── */}

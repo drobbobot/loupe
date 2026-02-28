@@ -392,25 +392,25 @@ export const SEED_LENSES: LensProfile[] = [
   },
 ];
 
-// Group introduction texts for Me / We / Everybody sections
+// Group introduction texts — Self / Community / Systems
 export const GROUP_INTROS: Record<
   "me" | "we" | "everybody",
   { title: string; description: string }
 > = {
   me: {
-    title: "Me",
+    title: "Self",
     description:
-      "Survival, belonging, and power. The first three lenses trace the arc of the individual discovering itself \u2014 from raw instinct through tribal membership to personal will.",
+      "Survival, belonging, and power. These first lenses trace how the individual discovers itself — from raw instinct through tribal safety to personal will.",
   },
   we: {
-    title: "We",
+    title: "Community",
     description:
-      "Order and achievement. These lenses build the structures that allow individuals to cooperate at scale \u2014 first through shared rules, then through strategic competition.",
+      "Order and achievement. These lenses build the structures that let people cooperate at scale — first through shared rules and duty, then through strategy and results.",
   },
   everybody: {
-    title: "Everybody",
+    title: "Systems",
     description:
-      "Pluralism, integration, and holism. The final lenses extend the circle of concern beyond any single group to include all people, all of nature, and eventually all of reality.",
+      "Pluralism, integration, and holism. The later lenses widen the circle — beyond tribe, beyond nation, toward something that holds everyone and everything.",
   },
 };
 

@@ -9,7 +9,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { LENS_COLORS, type LensSlug } from "@loupe/types";
+import { LENS_COLORS, LENS_FOCUS, type LensSlug } from "@loupe/types";
 
 interface LensCardProps {
   slug: LensSlug;
@@ -20,12 +20,6 @@ interface LensCardProps {
   isSecondary?: boolean;
   index: number;
 }
-
-const GROUP_LABELS: Record<string, string> = {
-  me: "Me",
-  we: "We",
-  everybody: "Everybody",
-};
 
 export function LensCard({
   slug,
@@ -76,9 +70,9 @@ export function LensCard({
           </p>
         </div>
 
-        {/* Group badge */}
-        <span className="mt-1 shrink-0 rounded-full bg-warm-100 px-2 py-0.5 text-2xs font-medium uppercase tracking-wide text-warm-400">
-          {GROUP_LABELS[group]}
+        {/* Focus badge */}
+        <span className="mt-1 shrink-0 rounded-full bg-warm-100 px-2 py-0.5 text-2xs font-medium text-warm-400">
+          {LENS_FOCUS[slug]}
         </span>
       </Link>
     </motion.div>

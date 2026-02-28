@@ -65,12 +65,12 @@ export const lens = defineType({
       name: "group",
       title: "Group",
       type: "string",
-      description: "Me / We / Everybody developmental grouping",
+      description: "Self / Community / Systems developmental grouping",
       options: {
         list: [
-          { title: "Me (Beige, Purple, Red)", value: "me" },
-          { title: "We (Blue, Orange)", value: "we" },
-          { title: "Everybody (Green, Yellow, Turquoise)", value: "everybody" },
+          { title: "Self (Beige, Purple, Red)", value: "me" },
+          { title: "Community (Blue, Orange)", value: "we" },
+          { title: "Systems (Green, Yellow, Turquoise)", value: "everybody" },
         ],
       },
       validation: (Rule) => Rule.required(),

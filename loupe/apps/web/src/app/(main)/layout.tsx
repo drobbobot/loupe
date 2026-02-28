@@ -42,14 +42,14 @@ function SiteCredits() {
         >
           Don Beck &amp; Chris Cowan
         </a>
-        . The language and framing throughout Loupe draws from{" "}
+        . The language and framing throughout Loupe draws from the work of{" "}
         <a
-          href="https://robbell.com/portfolio/me-we-everybody/"
+          href="https://robbell.com"
           target="_blank"
           rel="noopener noreferrer"
           className="underline underline-offset-2 transition-colors hover:text-warm-500"
         >
-          Rob &amp; Trace Bell&apos;s <em>Me, We, Everybody</em>
+          Rob &amp; Trace Bell
         </a>
         .
       </p>

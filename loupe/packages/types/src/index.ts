@@ -23,7 +23,7 @@ export type LensSlug =
   | "yellow"
   | "turquoise";
 
-// Me / We / Everybody developmental groupings (design.md §4.2, prd.md §4.2)
+// Self / Community / Systems developmental groupings (design.md §4.2, prd.md §4.2)
 export type LensGroup = "me" | "we" | "everybody";
 
 // Each lens alternates between inward and outward focus along the spiral arc
@@ -65,6 +65,30 @@ export const LENS_DIRECTION: Record<LensSlug, InwardOutward> = {
   yellow: "integrating",
   turquoise: "integrating",
 };
+
+// Human-readable direction labels for LENS_DIRECTION values
+const DIRECTION_LABEL: Record<InwardOutward, string> = {
+  inward:      "Internal",
+  outward:     "External",
+  integrating: "Integrating",
+};
+
+// Human-readable group labels for LensGroup values
+const GROUP_LABEL: Record<LensGroup, string> = {
+  me:        "Self",
+  we:        "Community",
+  everybody: "Systems",
+};
+
+// Derived "Focus" display string — combines direction and group.
+// Format: "Internal · Self", "External · Community", "Integrating · Systems", etc.
+// Use this wherever a lens needs a consistent Focus metadata line.
+export const LENS_FOCUS: Record<LensSlug, string> = Object.fromEntries(
+  (Object.keys(LENS_DIRECTION) as LensSlug[]).map((slug) => [
+    slug,
+    `${DIRECTION_LABEL[LENS_DIRECTION[slug]]} · ${GROUP_LABEL[LENS_GROUPS[slug]]}`,
+  ])
+) as Record<LensSlug, string>;
 
 // Canonical lens tags — shown as subtext beneath the lens name in the UI
 // Source: research/podcast-content-notes.md, informed by Rob & Trace Bell's language
