@@ -283,6 +283,8 @@ Motion in Loupe should feel like a natural extension of the product's warmth —
 
 The design includes language (labels, microcopy, prompts, empty states) and this language is as much a part of the design as the visual. These principles govern it.
 
+**The primary register reference is Rob Bell's Robcast — specifically the Me/We/Everybody series.** Rob's voice is warm, plain-spoken, a little surprising, and intellectually serious without being academic. He starts with a specific human moment, not an abstraction. He trusts his audience. All Loupe copy should pass the test: does this sound like Rob Bell or does it sound like a SaaS product?
+
 **Speak in the product's voice, not a UI manual.** Labels are not form-filler language. "Find your lens" not "Take assessment." "Where you are right now" not "Your current result." "See what's ahead" not "View growth path."
 
 **Respect the user's intelligence.** No over-explaining. No hand-holding copy. A user who has come to this product through Wilber or the Robcast does not need to be told what a shadow is in a tooltip.
@@ -291,12 +293,51 @@ The design includes language (labels, microcopy, prompts, empty states) and this
 
 **Error states maintain the product's warmth.** An error is handled with the same tone as everything else — clear, direct, a little human. No technical jargon, no passive voice.
 
-**Microcopy examples:**
-- Assessment CTA: "Find your lens" (not "Start test")
-- Result reveal: "This is your lens right now." (not "Your result is:")
-- Library soft prompt: "Take the assessment to see your lens highlighted here." (not "Complete the assessment to unlock personalisation")
-- Trial end banner: "Your 3 weeks are up. Here's what changes if you don't subscribe." (not "Your free trial has expired")
-- Retake cooldown: "You can retake your assessment in 47 days. Here's why we suggest waiting." (not "Assessment locked")
+**Anti-weaponisation language is essential throughout.** Rob's warning — "the moment this becomes a parlour game" — should shape onboarding, the pre-assessment screen, and the result reveal. The framing is always: use this on yourself first. Understanding, not categorising.
+
+### 8.1 Preferred language and phrases
+
+These words and phrases come directly from the Me/We/Everybody podcast series and should be used wherever natural throughout the product. They carry the right register without needing explanation.
+
+**Framework framing:**
+- "Your centre of gravity" — always use this instead of "your stage," "your type," or "your level"
+- "Spaces within us" — all lenses exist in everyone; this is a centre of gravity, not a fixed label
+- "Where you're coming from" — warm, human, non-clinical
+- "The lens through which you see the world"
+- "How we grow" — simple, hopeful, personal
+- "Meet people where they're at"
+
+**Growth and transition:**
+- "The invitation to expand" — never prescriptive; growth is always an invitation
+- "Transcend and include" — Yellow's defining phrase, but useful anywhere growth is discussed
+- "You can't unsee the other stories" — for the WE→Everybody transition
+- "Channel that energy into something larger" — for healthy transitions from any lens
+
+**Shadow and difficulty:**
+- "Brittle" — the key word for any lens that is rigid and defensive (especially Blue and Green)
+- "Shrill and brittle and narrow while thinking it's better" — unhealthy Everybody/Green specifically
+- "The laser beam needs focus — if it doesn't, it goes in every direction" — unhealthy Green shadow
+- "Health and unhealth at every stage" — use to establish that no lens is good or bad
+
+**Anti-weaponisation (use in onboarding, pre-assessment, result reveal):**
+- "Use this on yourself first"
+- "A way of understanding, not a way of placing people"
+- "Human behaviour is very mysterious — until you see where it's coming from"
+
+### 8.2 Microcopy examples
+
+| Context | Use | Not |
+|---------|-----|-----|
+| Assessment CTA | "Find your lens" | "Take assessment" |
+| Result reveal | "This is your lens right now." | "Your result is:" |
+| Result subtext | "A centre of gravity, not a fixed label." | "Your personality type is:" |
+| Pre-assessment | "Answer as you are, not as you'd like to be." | "Complete all questions honestly" |
+| Library soft prompt | "Take the assessment to see where you sit on the spiral." | "Complete the assessment to unlock personalisation" |
+| Trial end banner | "Your 3 weeks are up. Here's what changes if you don't subscribe." | "Your free trial has expired" |
+| Retake cooldown | "You can retake in 47 days. Here's why we suggest waiting." | "Assessment locked" |
+| Empty profile | "You haven't found your lens yet. That's where this starts." | "No data yet" |
+| Growth section header | "What's opening up" | "Your growth path" |
+| Shadow section header | "Where it gets hard" | "Your weaknesses" |
 
 ---
 

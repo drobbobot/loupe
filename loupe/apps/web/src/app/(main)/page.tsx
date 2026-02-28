@@ -93,15 +93,15 @@ export default async function HomePage() {
           </h1>
 
           <p className="mb-4 text-lg leading-relaxed text-warm-600">
-            The people around you aren&apos;t irrational.
+            The people in your life aren&apos;t irrational.
             <br />
-            They&apos;re just seeing through a different lens.
+            They&apos;re seeing through a different lens.
           </p>
 
           <p className="mx-auto mb-12 max-w-prose text-base leading-relaxed text-warm-500">
-            Loupe uses Spiral Dynamics to help you understand your own
-            worldview — and genuinely connect with people who see things
-            differently.
+            When you understand where someone is coming from,
+            their behaviour stops being mysterious.
+            Loupe helps you find your lens first — then understand theirs.
           </p>
 
           <Link
@@ -130,17 +130,21 @@ export default async function HomePage() {
           What is Spiral Dynamics?
         </h2>
         <p className="mt-4 text-base leading-relaxed text-warm-600">
-          Spiral Dynamics is a model of how people see the world. Developed
-          from the research of psychologist Clare Graves, it maps eight
-          distinct value systems — called lenses — that shape how we make
-          decisions, what we care about, and what drives us mad about each
+          Spiral Dynamics is a map of how people make sense of the world.
+          Built on the research of psychologist Clare Graves, it describes
+          eight value systems — spaces within us — that shape what we care
+          about, how we make decisions, and why we so often talk past each
           other.
         </p>
         <p className="mt-4 text-base leading-relaxed text-warm-600">
-          These aren&apos;t personality types. They&apos;re worldviews — ways
-          of making sense of complexity. Each one emerged in response to real
-          human challenges, and each one carries genuine wisdom along with
-          predictable blind spots.
+          These aren&apos;t fixed personality types. They&apos;re centres of
+          gravity — ways of organising the world that feel completely obvious
+          from the inside. Each one emerged because it solved a real human
+          problem. Each one carries genuine wisdom. And each one has a shadow.
+        </p>
+        <p className="mt-4 text-base leading-relaxed text-warm-600">
+          Most of us move between several of these spaces depending on context.
+          But one tends to be home.
         </p>
       </section>
 
@@ -157,14 +161,14 @@ export default async function HomePage() {
         </p>
 
         <div className="mt-8 space-y-4">
-          <LensRow color="#C4A882" name="Beige" desc="Survival instinct. The body knows what it needs." />
-          <LensRow color="#6B4E9B" name="Purple" desc="Belonging and ritual. We are held by the group." />
-          <LensRow color="#C0392B" name="Red" desc="Personal power. I will not be diminished." />
-          <LensRow color="#1E3A6E" name="Blue" desc="Order and purpose. There is a right way to live." />
-          <LensRow color="#C4622D" name="Orange" desc="Achievement and strategy. What actually works?" />
-          <LensRow color="#3D7A52" name="Green" desc="Equality and empathy. Every voice matters." />
-          <LensRow color="#B89A28" name="Yellow" desc="Systems thinking. Everything connects." />
-          <LensRow color="#1A6B7A" name="Turquoise" desc="Holism and presence. The river finds the way." />
+          <LensRow color="#C4A882" name="Beige" tags="Survival · Instinct · Primal" desc="Stay alive. The body knows before the mind does." />
+          <LensRow color="#6B4E9B" name="Purple" tags="Magic · Tribe · Ancestral" desc="We belong to each other. The group holds us." />
+          <LensRow color="#C0392B" name="Red" tags="Power · Impulse · Dominance" desc="I will not be diminished. Strength is the point." />
+          <LensRow color="#1E3A6E" name="Blue" tags="Order · Duty · Tradition" desc="There is a right way to live. Follow it and things hold together." />
+          <LensRow color="#C4622D" name="Orange" tags="Achievement · Rational · Progress" desc="What actually works? Prove it and improve it." />
+          <LensRow color="#3D7A52" name="Green" tags="Pluralism · Empathy · Justice" desc="Every voice matters. No one gets left behind." />
+          <LensRow color="#B89A28" name="Yellow" tags="Integration · Systems · Fluidity" desc="Everything connects. Complexity isn&apos;t the problem — it&apos;s the territory." />
+          <LensRow color="#1A6B7A" name="Turquoise" tags="Holistic · Global · Flow" desc="The whole is alive. We&apos;re part of something larger." />
         </div>
 
         <div className="mt-8 text-center">
@@ -187,16 +191,16 @@ export default async function HomePage() {
         </h2>
         <div className="mt-6 space-y-6">
           <ReasonCard
-            title="Understand yourself"
-            body="Discover which lens shapes your decisions, what you value most, and where your blind spots hide. Not a label — a mirror."
+            title="Start with yourself"
+            body="Find your centre of gravity — the lens that shapes your decisions, your defaults under pressure, and where your shadow hides. Not a label. A mirror. Use this on yourself first."
           />
           <ReasonCard
-            title="Navigate relationships"
-            body="The person who drives you mad isn't broken — they're operating from a different lens. Understanding that changes everything."
+            title="Understand the people around you"
+            body="The person who drives you mad isn't broken. They're not irrational. They're optimising for something different. When you can see their lens, the friction starts to make sense."
           />
           <ReasonCard
-            title="See the bigger picture"
-            body="Politics, culture, workplaces — most conflict isn't about facts. It's about people optimising for different things. Spiral Dynamics shows you what those things are."
+            title="Read what&apos;s actually happening"
+            body="Most conflict — in politics, culture, families, workplaces — isn&apos;t really about the surface issue. It&apos;s about people operating from different value systems. Spiral Dynamics shows you what those are."
           />
         </div>
       </section>
@@ -208,6 +212,10 @@ export default async function HomePage() {
         </p>
         <p className="mt-2 text-sm text-warm-500">
           A 15-minute assessment. No right answers — just honest ones.
+        </p>
+        <p className="mt-3 text-xs text-warm-400">
+          A note: this is a tool for understanding, not a weapon for winning arguments.
+          Start with yourself.
         </p>
         <Link
           href="/assessment"
@@ -222,7 +230,7 @@ export default async function HomePage() {
 
 // ── Inline helper components (Server Components, no separate file needed) ──
 
-function LensRow({ color, name, desc }: { color: string; name: string; desc: string }) {
+function LensRow({ color, name, tags, desc }: { color: string; name: string; tags: string; desc: string }) {
   return (
     <div className="flex items-start gap-3.5">
       <div
@@ -231,7 +239,8 @@ function LensRow({ color, name, desc }: { color: string; name: string; desc: str
       />
       <div>
         <span className="text-sm font-semibold text-warm-800">{name}</span>
-        <span className="ml-1.5 text-sm text-warm-500">{desc}</span>
+        <span className="ml-1.5 text-xs text-warm-400">{tags}</span>
+        <p className="mt-0.5 text-sm text-warm-500">{desc}</p>
       </div>
     </div>
   );

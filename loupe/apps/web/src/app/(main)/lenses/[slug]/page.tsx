@@ -68,6 +68,7 @@ export default async function LensSlugPage({ params }: Props) {
         shadowExpression: flattenPortableText(sanityLens.shadowExpression),
         inTheWild: sanityLens.inTheWild ?? [],
         howToConnect: flattenPortableText(sanityLens.howToConnect),
+        growthPrompt: flattenPortableText(sanityLens.growthPrompt),
         depthLayer: flattenPortableText(sanityLens.depthLayer),
         metaDescription: sanityLens.metaDescription ?? "",
       };

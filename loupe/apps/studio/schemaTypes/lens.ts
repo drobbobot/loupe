@@ -148,12 +148,34 @@ export const lens = defineType({
         "Practical guidance for genuine communication — not manipulation tactics. 150–200 words.",
     }),
     defineField({
+      name: "growthPrompt",
+      title: "What's opening up",
+      type: "array",
+      of: [{ type: "block" }],
+      description:
+        "Non-prescriptive description of what the next lens sees. Framed as an invitation, not a push. Warm, plain-spoken. 50–100 words.",
+    }),
+    defineField({
       name: "depthLayer",
       title: "Depth layer",
       type: "array",
       of: [{ type: "block" }],
       description:
         "More technical content for users who want to go deeper: Graves/Beck grounding, historical examples, Wilber framing. This is where vMEME terminology can appear.",
+    }),
+
+    // ── Tags ─────────────────────────────────────────────────────────────
+    defineField({
+      name: "tags",
+      title: "Tags (1–3)",
+      type: "array",
+      of: [{ type: "string" }],
+      description:
+        "Short descriptor words shown as subtext beneath the lens name. E.g. 'Survival · Instinct · Primal'. Max 3.",
+      validation: (Rule) => Rule.max(3),
+      options: {
+        layout: "tags",
+      },
     }),
 
     // ── SEO ──────────────────────────────────────────────────────────────

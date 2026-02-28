@@ -10,7 +10,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { motion } from "framer-motion";
-import { LENS_COLORS, type LensSlug } from "@loupe/types";
+import { LENS_COLORS, LENS_TAGS, type LensSlug } from "@loupe/types";
 
 interface LensProfileHeaderProps {
   slug: LensSlug;
@@ -63,11 +63,22 @@ export function LensProfileHeader({
         {displayName}
       </motion.h1>
 
+      {/* Lens tags */}
+      <motion.p
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.4 }}
+        className="mt-3 text-sm tracking-wide"
+        style={{ color: `${colors.text}99` }}
+      >
+        {LENS_TAGS[slug].join(" · ")}
+      </motion.p>
+
       {/* Tagline */}
       <motion.p
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.4 }}
+        transition={{ delay: 0.55, duration: 0.4 }}
         className="mt-4 max-w-md font-serif text-lg italic leading-relaxed"
         style={{ color: colors.text }}
       >
@@ -78,7 +89,7 @@ export function LensProfileHeader({
       <motion.div
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
-        transition={{ delay: 0.7, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ delay: 0.75, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         className="mt-8 h-0.5 w-12 origin-center"
         style={{ backgroundColor: colors.DEFAULT }}
       />

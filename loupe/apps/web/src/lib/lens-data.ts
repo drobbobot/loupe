@@ -25,6 +25,7 @@ export interface LensProfile {
   shadowExpression: string;
   inTheWild: Array<{ title: string; body: string }>;
   howToConnect: string;
+  growthPrompt: string;
   depthLayer: string;
   metaDescription: string;
 }
@@ -67,6 +68,8 @@ export const SEED_LENSES: LensProfile[] = [
     ],
     howToConnect:
       "To connect with someone operating from Beige, start with the body. Don\u2019t begin with ideas \u2014 begin with physical comfort. Is the temperature okay? Is there food? Is the space safe? Match their pace. Speak simply and calmly. Don\u2019t flood them with options. Reduce the world to manageable size. Show through action, not words, that you are not a threat. Trust is built through repeated, predictable physical safety.",
+    growthPrompt:
+      "When survival is no longer the whole story, something else begins to stir \u2014 the awareness that you are not alone. That there are others. That you belong to something. Purple\u2019s gift is the discovery that connection itself is a kind of safety. The invitation isn\u2019t to leave the body\u2019s wisdom behind. It\u2019s to let it extend into the warmth of a group, a rhythm, a shared fire.",
     depthLayer:
       "In Clare Graves\u2019 original research, Beige represents the A-N existential level \u2014 the automatic, survival-based system from which all subsequent complexity emerges. Beck and Cowan colour-coded it Beige to evoke earth, sand, and the prehistoric landscape.\n\nBeige is not a \"stage to get past.\" It is the ever-present foundation. Under sufficient stress, any person returns to Beige processing. Understanding this is clinically crucial: trauma responses, addiction, and extreme poverty all involve the Beige system becoming dominant.\n\nIn Wilber\u2019s integral framework, Beige maps approximately to the archaic level. It is pre-egoic \u2014 the self has not yet differentiated from the environment.",
     metaDescription:
@@ -110,6 +113,8 @@ export const SEED_LENSES: LensProfile[] = [
     ],
     howToConnect:
       "To connect with someone operating from Purple, honour what they belong to. Ask about their family, their traditions, their community. Don\u2019t rush to challenge their loyalties \u2014 those loyalties are load-bearing. Share your own belonging stories. Participate in their rituals sincerely. Build trust through repeated presence, not impressive credentials. Remember: for Purple, relationship comes before information.",
+    growthPrompt:
+      "At some point, belonging to the group isn\u2019t enough. A voice inside starts to say: I have my own power. I am not just a member \u2014 I am someone. Red\u2019s gift is the discovery of individual will, the refusal to disappear. The invitation isn\u2019t to abandon the tribe. It\u2019s to discover that you can stand on your own feet and still come home.",
     depthLayer:
       "Graves designated this the B-O level \u2014 the tribalistic-animistic system where safety is found through group membership and where the mysterious forces of the world are managed through ritual and tradition.\n\nPurple represents the first major leap from individual survival to collective consciousness. It is the lens through which human societies first organised beyond the family unit.\n\nIn integral theory, this approximates the magic-animistic level. It is pre-conventional \u2014 order is maintained through custom and taboo rather than explicit rules. Modern expressions include all forms of in-group loyalty, brand tribalism, and the deep human need for ritual marking of life transitions.",
     metaDescription:
@@ -153,6 +158,8 @@ export const SEED_LENSES: LensProfile[] = [
     ],
     howToConnect:
       "To connect with someone operating from Red, show respect immediately. Don\u2019t lecture, don\u2019t patronise, don\u2019t try to be clever. Be direct. Say what you mean. Acknowledge their strength before you ask them to consider anything else. Never corner them \u2014 Red under pressure escalates. Give them choices, not orders. If you can be genuinely useful to their goals, say so plainly.",
+    growthPrompt:
+      "There comes a moment when pure power runs out of road. You\u2019ve proven you can\u2019t be pushed around \u2014 but now what? Blue\u2019s gift is the discovery that channelling that energy into something larger than yourself doesn\u2019t make you weaker. It gives the fire a hearth. The invitation isn\u2019t to become obedient. It\u2019s to find a code worth serving \u2014 and to discover that sacrifice can feel like strength.",
     depthLayer:
       "Graves designated this the C-P level \u2014 the egocentric-exploitative system where the individual first emerges from the group and asserts autonomous power. It corresponds to the \"power gods\" stage in historical terms.\n\nRed is the first truly self-aware lens. The individual discovers \"I exist separately\" and immediately tests the limits of that existence. This is developmentally necessary \u2014 without Red, there is no differentiation from the group.\n\nIn integral theory, Red approximates the power/magic-mythic level. It is pre-conventional in that it has not yet internalised rules, but it has moved beyond Purple\u2019s group-embeddedness. Every healthy adult has access to Red energy; the question is whether it is integrated or repressed.",
     metaDescription:
@@ -196,6 +203,8 @@ export const SEED_LENSES: LensProfile[] = [
     ],
     howToConnect:
       "To connect with someone operating from Blue, show that you take things seriously. Be punctual. Keep your commitments. Don\u2019t dismiss their sense of right and wrong even if it differs from yours. Acknowledge the value of the structures they maintain. If you want them to consider change, frame it as improvement to the system, not destruction of it. Never mock their principles \u2014 those principles are their identity.",
+    growthPrompt:
+      "At some point, the code starts to feel like a ceiling. You\u2019ve followed the rules \u2014 now you want to know if they actually work. Orange\u2019s gift is the permission to test, to question, to measure. Not to burn the structures down, but to ask: what here is genuinely true, and what is just tradition? The invitation is to trust your own mind as much as you trust the text.",
     depthLayer:
       "Graves designated this the D-Q level \u2014 the absolutistic-saintly system where the individual subordinates themselves to a higher order or purpose. Historically, this corresponds to the great civilisational structures: organised religion, codified law, the nation-state.\n\nBlue represents the first \"we\" lens \u2014 the individual voluntarily limits personal freedom for the sake of collective order. This is a genuine cognitive and moral achievement, not a regression from Red\u2019s individualism.\n\nIn integral theory, Blue maps to the mythic-membership level (conventional morality). The person can take the perspective of the group and hold values that transcend personal benefit. Blue is the backbone of every functioning institution.",
     metaDescription:
@@ -239,6 +248,8 @@ export const SEED_LENSES: LensProfile[] = [
     ],
     howToConnect:
       "To connect with someone operating from Orange, bring evidence. Don\u2019t argue from authority or tradition \u2014 argue from results. Respect their time. Be concise. If you want them to value something intangible, frame it in terms of outcomes: \"This approach produces better team retention,\" not \"This feels more human.\" Once trust is established, Orange is surprisingly open to deeper questions \u2014 they just need to arrive there through their own logic.",
+    growthPrompt:
+      "You\u2019ve achieved, you\u2019ve optimised, you\u2019ve won \u2014 and somewhere, quietly, you\u2019ve started asking: is this all there is? Green\u2019s gift is the discovery that other people\u2019s stories are as real as yours. That the voices you haven\u2019t heard yet might change what you think you know. The invitation isn\u2019t to stop achieving. It\u2019s to notice who\u2019s been left out of the equation.",
     depthLayer:
       "Graves designated this the E-R level \u2014 the multiplistic-achievist system where the individual re-emerges from Blue\u2019s conformity armed with strategic thinking and scientific rationality.\n\nOrange is the engine of modernity. The Enlightenment, the Industrial Revolution, the Scientific Revolution, democratic governance \u2014 all are Orange achievements. It represents the re-assertion of individual agency, but now guided by reason rather than Red\u2019s raw power.\n\nIn integral theory, Orange maps to the rational-achievement level. It is the first post-conventional stage \u2014 the person can critically examine the rules they were taught and ask \"do these actually work?\" This is a genuine cognitive advance with enormous practical consequences.",
     metaDescription:
@@ -282,6 +293,8 @@ export const SEED_LENSES: LensProfile[] = [
     ],
     howToConnect:
       "To connect with someone operating from Green, lead with authenticity. Drop the performance and speak from genuine feeling. Acknowledge the impact of systems on people. Listen without rushing to solve. Ask how they feel, not just what they think. Honour their sensitivity as strength, not weakness. If you need to challenge them, do it from care, not from dismissal. Never reduce their concerns to \"being too emotional.\"",
+    growthPrompt:
+      "You\u2019ve opened your heart to every story. Now a new question starts to form: how do all these stories fit together? Yellow\u2019s gift is the capacity to hold them all without collapsing into paralysis. You can\u2019t unsee the other stories \u2014 and you don\u2019t have to. The invitation is to discover that integration isn\u2019t betrayal. That seeing how the pieces connect doesn\u2019t mean you stop caring about each one.",
     depthLayer:
       "Graves designated this the F-S level \u2014 the relativistic-personalistic system where the individual, having achieved Orange\u2019s material success, turns inward to ask \"but am I happy? Are we okay?\"\n\nGreen marks the beginning of the \"everybody\" tier. For the first time, the lens extends beyond the immediate group (Purple), the rule system (Blue), or the competitive arena (Orange) to encompass all people and all of nature.\n\nIn integral theory, Green maps to the pluralistic level. It deconstructs the hidden power dynamics in every system and insists on including marginalised perspectives. This is genuinely important work \u2014 but Green\u2019s limitation is that deconstruction alone cannot rebuild. That task falls to Yellow.",
     metaDescription:
@@ -325,6 +338,8 @@ export const SEED_LENSES: LensProfile[] = [
     ],
     howToConnect:
       "To connect with someone operating from Yellow, bring your best thinking. Don\u2019t oversimplify. Show that you understand complexity. But also be real \u2014 Yellow respects authenticity and quickly spots performance. Ask questions that reveal systems, not questions that demand allegiance. If you disagree, explain the perspective you\u2019re holding and ask what they see from theirs. Yellow craves genuine intellectual partnership.",
+    growthPrompt:
+      "You can see the systems, the connections, the whole map. But something is asking you to stop seeing and start being. Turquoise\u2019s gift is the experience of wholeness \u2014 not as a concept, but as something lived in the body and the breath. The invitation isn\u2019t to add another perspective to the collection. It\u2019s to let the boundaries between the observer and the observed become a little more transparent.",
     depthLayer:
       "Graves designated this the G-T level \u2014 the systemic-integrative system and the first of the \"second tier.\" The fundamental shift at Yellow is that the person can now see all previous levels as valid systems rather than as stages to transcend.\n\nThis is Graves\u2019 most significant theoretical contribution: the leap from first tier (where each level thinks it has the right answer) to second tier (where the person can operate flexibly across all levels). Beck and Cowan called this the \"momentous leap.\"\n\nIn Wilber\u2019s framework, Yellow maps to the integral or vision-logic level. It is the first structure that can genuinely integrate rather than merely include or transcend. Yellow\u2019s challenge is to remain embodied and compassionate while holding this expanded cognitive capacity.",
     metaDescription:
@@ -368,6 +383,8 @@ export const SEED_LENSES: LensProfile[] = [
     ],
     howToConnect:
       "To connect with someone operating from Turquoise, slow down. Way down. Don\u2019t fill silence. Don\u2019t perform insight. Be present. If you have a genuine question, ask it simply. If you have nothing to say, say nothing. Turquoise responds to the quality of your presence more than the content of your words. Be real. Be quiet. Be here.",
+    growthPrompt:
+      "The spiral doesn\u2019t end here. What lies beyond is less a new lens and more a deepening of what you already know: that form and formlessness, individual and whole, are not separate things. The invitation \u2014 if it can even be called that \u2014 is to continue showing up, fully human, dishes and all, while holding the whole of it lightly.",
     depthLayer:
       "Graves designated this the H-U level \u2014 the holistic-global system. Research data at this level was limited in Graves\u2019 lifetime, and he acknowledged that our understanding of it remains incomplete.\n\nTurquoise represents the integration of Yellow\u2019s cognitive complexity with a felt, embodied sense of wholeness that Yellow tends to hold only intellectually. Where Yellow sees systems, Turquoise experiences them.\n\nIn Wilber\u2019s framework, Turquoise maps to the early transpersonal levels. It is the first structure where the self-sense genuinely extends beyond the individual organism. This is not a regression to Purple\u2019s pre-individual fusion, but a post-individual integration that includes and transcends the personal self.\n\nA caution: Turquoise is frequently romanticised. In reality, it includes all the mundane challenges of being human. A person at Turquoise still has bad days, still loses their keys, and still needs to do the dishes.",
     metaDescription:

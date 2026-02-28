@@ -64,6 +64,13 @@ export function LensProfileContent({ lens }: LensProfileContentProps) {
         <p>{lens.howToConnect}</p>
       </LensSection>
 
+      {/* Growth prompt — what the next lens sees */}
+      {lens.growthPrompt && (
+        <LensSection title="What's opening up">
+          <p>{lens.growthPrompt}</p>
+        </LensSection>
+      )}
+
       {/* Depth layer — collapsed by default, distinct style */}
       <LensSection title="Depth layer" variant="depth">
         <div className="space-y-4">

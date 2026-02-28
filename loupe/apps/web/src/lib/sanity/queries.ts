@@ -24,6 +24,7 @@ export async function getLensProfile(slug: LensSlug) {
       shadowExpression,
       inTheWild,
       howToConnect,
+      growthPrompt,
       depthLayer,
       metaDescription
     }`,

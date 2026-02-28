@@ -218,21 +218,43 @@ Each grouping has a brief contextual intro explaining what unites these lenses d
 
 #### Each Lens Profile Contains
 
-**Header** — Lens name (colour name), a short phrase that captures its core organising principle, and a single evocative sentence that lands the feel of the lens immediately.
+**Header** — Lens name, 1–3 descriptor tags shown as subtext (see tag system below), and a single evocative sentence that lands the feel of the lens immediately. The tags are the fastest way to orient a new reader — they should feel like a click of recognition, not a clinical label.
 
-**From the inside** — A first-person, present-tense portrait of what the world genuinely looks and feels like from this lens. Written with full empathy — the goal is that someone operating from this lens reads this and feels seen, not judged. 200–350 words.
+**Lens tags** — Each lens has 1–3 short descriptor words displayed beneath its name throughout the product. These are informed by Rob and Trace Bell's register in the Me/We/Everybody podcast series — plain-spoken, emotionally accurate, non-academic. The canonical tags are:
 
-**What this lens values and why** — The values of this lens, written without apology or condescension. These values make complete sense given the life conditions that produced them. 100–200 words.
+| Lens | Tags |
+|------|------|
+| Beige | Survival · Instinct · Primal |
+| Purple | Magic · Tribe · Ancestral |
+| Red | Power · Impulse · Dominance |
+| Blue | Order · Duty · Tradition |
+| Orange | Achievement · Rational · Progress |
+| Green | Pluralism · Empathy · Justice |
+| Yellow | Integration · Systems · Fluidity |
+| Turquoise | Holistic · Global · Flow |
 
-**Healthy expression** — What this lens looks like when it's functioning well. Specific, vivid, using real examples from relationships, leadership, civic life, and culture. 150–250 words.
+**From the inside** — A first-person, present-tense portrait of what the world genuinely looks and feels like from this lens. Written with full empathy — the goal is that someone operating from this lens reads this and feels seen, not judged. 200–350 words. The test: would someone centred here feel understood or patronised? Rob Bell's framing: "human behaviour is very mysterious — until you see where it's coming from." This section is the answer to that.
 
-**Shadow expression** — What this lens looks like when it's frightened, closed-down, or overextended. Written with the same compassion and specificity as the healthy expression. Not a warning label — a recognition tool. 150–250 words.
+**What this lens values and why** — The values of this lens, written without apology or condescension. These values make complete sense given the life conditions that produced them. 100–200 words. No lens's values are irrational — they are a completely coherent response to a particular set of life experiences. Write from that premise.
 
-**In the wild** — Rapid, recognisable examples of this lens in real-world contexts: 3–5 examples drawn from politics, popular culture, archetypes, relationship dynamics, and workplace behaviour. Format: short paragraph each, scannable.
+**Healthy expression** — What this lens looks like when it's functioning well. Specific, vivid, using real examples from relationships, leadership, civic life, and culture. 150–250 words. Draw on the "In the Wild" examples from `research/podcast-content-notes.md` — the anti-war rally, the recovering addict, the megachurch, the Roman Empire. Real examples, not abstractions.
 
-**How to connect** — Practical guidance for how to genuinely reach someone operating from this lens. Not manipulation tactics — genuine communication principles. What do they need to hear? What lands? What closes them down? 150–200 words.
+**Shadow expression** — What this lens looks like when it's frightened, closed-down, or overextended. Written with the same compassion and specificity as the healthy expression. Not a warning label — a recognition tool. 150–250 words. Key word from Rob: "brittle" — use it or a close equivalent for any lens that becomes rigid and defensive. For Green specifically: "shrill and brittle and narrow while thinking it's better." The shadow is always a distortion of the lens's gift, not a separate character flaw.
+
+**In the wild** — Rapid, recognisable examples of this lens in real-world contexts: 3–5 examples drawn from politics, popular culture, archetypes, relationship dynamics, and workplace behaviour. Format: short paragraph each, scannable. Refer to `research/podcast-content-notes.md` for the specific examples Rob and Trace use — these have been tested for resonance with a general audience and should be used as a starting point. Key examples to use:
+- Beige: factory shutdown, survival crisis, the friend with three degrees who still has this space within them
+- Purple: the young man who gets his girlfriend pregnant and says "my family just can't get a break"
+- Red: Saddam Hussein in the city square; the 2006 anti-war rally (Red energy vs Green energy at the same event)
+- Blue: drug addiction recovery and the 12 steps; hiring for loyalty vs hiring for merit
+- Orange: the megachurch as Blue theology + Orange methodology; democracy as Orange thinking
+- Green: the 1960s — feminism, civil rights, earth care, war protests; cancel culture as shadow
+- Yellow: the pastor in conservative Texas who meets people where they are; finding yourself let down by both left and right
+
+**How to connect** — Practical guidance for how to genuinely reach someone operating from this lens. Not manipulation tactics — genuine communication principles. What do they need to hear? What lands? What closes them down? 150–200 words. Source the specific communication principles from `research/podcast-content-notes.md` per-lens notes and the assessment design section.
 
 **Depth layer** (collapsed by default) — More technical material for users who want it: the Graves/Beck theoretical grounding for this level, historical examples, connection to Wilber's framing, relationship to adjacent lenses. This is where terms like vMEME and First/Second Tier can appear, clearly flagged as deeper context.
+
+**Content tone requirement across all sections:** All lens profile content must pass two tests from the PRD: (a) would this embarrass a serious SD practitioner? (b) would this bore or alienate a first-time Robcast listener? And a third test from the podcast: does it sound like something Rob Bell would say, or does it sound like a psychology textbook?
 
 #### Colour Theming
 Post-assessment, the Lens Library interface is themed in the colour palette of the user's centre of gravity lens. The background, accent colours, typographic highlights, and interactive elements take on the tones of that lens — creating a personalised, immersive environment that makes each user's library feel distinctly theirs. Users who have not yet completed the assessment see the library in a neutral palette. Users can switch to any lens's colour environment when viewing that lens's profile, returning to their home colour when they navigate away. This is a design and branding requirement, not a preference — it is one of the most visually distinctive choices in the product.

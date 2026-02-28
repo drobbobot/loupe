@@ -66,6 +66,19 @@ export const LENS_DIRECTION: Record<LensSlug, InwardOutward> = {
   turquoise: "integrating",
 };
 
+// Canonical lens tags — shown as subtext beneath the lens name in the UI
+// Source: research/podcast-content-notes.md, informed by Rob & Trace Bell's language
+export const LENS_TAGS: Record<LensSlug, string[]> = {
+  beige:     ["Survival", "Instinct", "Primal"],
+  purple:    ["Magic", "Tribe", "Ancestral"],
+  red:       ["Power", "Impulse", "Dominance"],
+  blue:      ["Order", "Duty", "Tradition"],
+  orange:    ["Achievement", "Rational", "Progress"],
+  green:     ["Pluralism", "Empathy", "Justice"],
+  yellow:    ["Integration", "Systems", "Fluidity"],
+  turquoise: ["Holistic", "Global", "Flow"],
+};
+
 // Canonical lens colours (mirrors tailwind.config.ts — keep in sync)
 export const LENS_COLORS: Record<LensSlug, { DEFAULT: string; bg: string; text: string }> = {
   beige:     { DEFAULT: "#C4A882", bg: "#F5EFE6", text: "#6B5A42" },
