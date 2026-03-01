@@ -76,7 +76,7 @@ export function MultipleChoiceInput({
             {/* Option letter (subtle) */}
             <span
               className={`
-                mt-0.5 shrink-0 flex h-6 w-6 items-center justify-center rounded-full
+                shrink-0 flex h-6 w-6 items-center justify-center rounded-full
                 text-xs font-medium transition-colors
                 ${
                   isSelected
@@ -89,7 +89,7 @@ export function MultipleChoiceInput({
             </span>
 
             <span
-              className={`text-[15px] leading-snug ${
+              className={`text-[15px] leading-snug pt-0.5 ${
                 isSelected ? "text-warm-900" : "text-warm-700"
               }`}
             >

@@ -16,12 +16,14 @@ import { motion } from "framer-motion";
 
 interface SectionTransitionProps {
   section: number;
+  totalSections: number;
   transitionText: string;
   onContinue: () => void;
 }
 
 export function SectionTransition({
   section,
+  totalSections,
   transitionText,
   onContinue,
 }: SectionTransitionProps) {
@@ -44,7 +46,7 @@ export function SectionTransition({
         transition={{ delay: 0.2, duration: 0.4 }}
         className="mb-6 text-xs font-medium uppercase tracking-widest text-warm-400"
       >
-        Part {section} of 5
+        Part {section} of {totalSections}
       </motion.span>
 
       {/* Transition copy */}

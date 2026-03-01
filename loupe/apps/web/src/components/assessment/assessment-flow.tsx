@@ -52,6 +52,10 @@ export function AssessmentFlow({
   const existingResponse = store.responses.find(
     (r) => r.questionId === currentQuestion?.id
   );
+  const totalSections = store.questions.reduce(
+    (max, q) => Math.max(max, q.section),
+    1
+  );
 
   // Keyboard: Escape to go back
   useEffect(() => {
@@ -139,6 +143,7 @@ export function AssessmentFlow({
             <SectionTransition
               key={`transition-${store.currentSection}`}
               section={store.currentSection}
+              totalSections={totalSections}
               transitionText={
                 currentQuestion.sectionTransition ?? ""
               }
@@ -230,7 +235,7 @@ export function AssessmentFlow({
             transition={{ delay: 0.3, duration: 0.5 }}
             className="mt-6 text-sm uppercase tracking-widest text-warm-400"
           >
-            Your lens
+            Your Centre of Gravity is
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 8 }}
