@@ -11,19 +11,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { LENS_COLORS, type LensSlug } from "@loupe/types";
+import { LENS_COLORS, LENS_DISPLAY_NAMES, ALL_LENSES, type LensSlug } from "@loupe/types";
 import { LensGem } from "@/components/ui/lens-gem";
-
-const ALL_LENSES: Array<{ slug: LensSlug; name: string }> = [
-  { slug: "beige", name: "Beige" },
-  { slug: "purple", name: "Purple" },
-  { slug: "red", name: "Red" },
-  { slug: "blue", name: "Blue" },
-  { slug: "orange", name: "Orange" },
-  { slug: "green", name: "Green" },
-  { slug: "yellow", name: "Yellow" },
-  { slug: "turquoise", name: "Turquoise" },
-];
 
 interface RelationshipHubProps {
   userPrimaryLens: LensSlug | null;
@@ -172,8 +161,8 @@ export function RelationshipHub({
 function PairPreview({ myLens, theirLens }: { myLens: LensSlug; theirLens: LensSlug }) {
   const colA = LENS_COLORS[myLens].DEFAULT;
   const colB = LENS_COLORS[theirLens].DEFAULT;
-  const nameA = ALL_LENSES.find((l) => l.slug === myLens)?.name ?? myLens;
-  const nameB = ALL_LENSES.find((l) => l.slug === theirLens)?.name ?? theirLens;
+  const nameA = LENS_DISPLAY_NAMES[myLens];
+  const nameB = LENS_DISPLAY_NAMES[theirLens];
 
   // Gem size and overlap amount
   const gemSize = 72;

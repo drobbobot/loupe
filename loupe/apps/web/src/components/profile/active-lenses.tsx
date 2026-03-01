@@ -9,24 +9,13 @@
 
 import { motion } from "framer-motion";
 import type { LensSlug } from "@loupe/types";
-import { LENS_COLORS } from "@loupe/types";
+import { LENS_COLORS, LENS_DISPLAY_NAMES } from "@loupe/types";
 
 interface ActiveLensesProps {
   activeLenses: Array<{ lens: LensSlug; strength: number }>;
   primaryLens: LensSlug;
   secondaryLens: LensSlug;
 }
-
-const LENS_NAMES: Record<LensSlug, string> = {
-  beige: "Beige",
-  purple: "Purple",
-  red: "Red",
-  blue: "Blue",
-  orange: "Orange",
-  green: "Green",
-  yellow: "Yellow",
-  turquoise: "Turquoise",
-};
 
 export function ActiveLenses({
   activeLenses,
@@ -64,7 +53,7 @@ export function ActiveLenses({
               {/* Name + badge */}
               <div className="flex w-24 flex-shrink-0 items-center gap-1.5">
                 <span className="text-sm text-warm-700">
-                  {LENS_NAMES[lens]}
+                  {LENS_DISPLAY_NAMES[lens]}
                 </span>
                 {isPrimary && (
                   <span className="text-[10px] font-medium text-warm-400">

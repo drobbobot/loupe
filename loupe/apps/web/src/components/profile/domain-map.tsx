@@ -22,7 +22,7 @@ import type {
   LifeDomain,
   LensSlug,
 } from "@loupe/types";
-import { LENS_COLORS, DOMAIN_LABELS, LIFE_DOMAINS } from "@loupe/types";
+import { LENS_COLORS, LENS_DISPLAY_NAMES, DOMAIN_LABELS, LIFE_DOMAINS } from "@loupe/types";
 
 interface DomainMapProps {
   result: DeepAssessmentResult;
@@ -56,17 +56,6 @@ function labelPos(index: number): { x: number; y: number; anchor: TextAnchor } {
   if (normAngle > Math.PI * 1.1 && normAngle < Math.PI * 1.9) anchor = "end";
   return { x, y, anchor };
 }
-
-const LENS_NAMES: Record<LensSlug, string> = {
-  beige: "Beige",
-  purple: "Purple",
-  red: "Red",
-  blue: "Blue",
-  orange: "Orange",
-  green: "Green",
-  yellow: "Yellow",
-  turquoise: "Turquoise",
-};
 
 export function DomainMap({ result }: DomainMapProps) {
   const [expanded, setExpanded] = useState<LifeDomain | null>(null);
@@ -132,7 +121,7 @@ export function DomainMap({ result }: DomainMapProps) {
                 className="cursor-pointer"
                 role="button"
                 tabIndex={0}
-                aria-label={`${DOMAIN_LABELS[domain]}: ${LENS_NAMES[profile.dominantLens]}`}
+                aria-label={`${DOMAIN_LABELS[domain]}: ${LENS_DISPLAY_NAMES[profile.dominantLens]}`}
               >
                 {/* Secondary lens ring */}
                 <circle
@@ -207,7 +196,7 @@ export function DomainMap({ result }: DomainMapProps) {
                   {DOMAIN_LABELS[expanded]}
                 </h3>
                 <span className="text-xs text-warm-400">
-                  {LENS_NAMES[
+                  {LENS_DISPLAY_NAMES[
                     profileMap.get(expanded)?.dominantLens ?? "blue"
                   ]}{" "}
                   lens

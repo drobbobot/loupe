@@ -12,7 +12,7 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { LENS_SLUGS, LENS_COLORS, type LensSlug } from "@loupe/types";
+import { LENS_SLUGS, LENS_COLORS, LENS_DISPLAY_NAMES, type LensSlug } from "@loupe/types";
 import { setLensTheme, clearLensTheme } from "@/lib/lens-theme";
 import { LensProfileHeader } from "@/components/lenses/lens-profile-header";
 import { LensProfileContent } from "@/components/lenses/lens-profile-content";
@@ -36,17 +36,6 @@ export function LensProfilePage({ lens }: LensProfilePageProps) {
     currentIndex < LENS_SLUGS.length - 1
       ? LENS_SLUGS[currentIndex + 1]
       : null;
-
-  const LENS_NAMES: Record<LensSlug, string> = {
-    beige: "Beige",
-    purple: "Purple",
-    red: "Red",
-    blue: "Blue",
-    orange: "Orange",
-    green: "Green",
-    yellow: "Yellow",
-    turquoise: "Turquoise",
-  };
 
   return (
     <main className="min-h-screen pb-24">
@@ -109,7 +98,7 @@ export function LensProfilePage({ lens }: LensProfilePageProps) {
               className="h-3 w-3 rounded-full"
               style={{ backgroundColor: LENS_COLORS[prevSlug].DEFAULT }}
             />
-            {LENS_NAMES[prevSlug]}
+            {LENS_DISPLAY_NAMES[prevSlug]}
           </Link>
         ) : (
           <div />
@@ -120,7 +109,7 @@ export function LensProfilePage({ lens }: LensProfilePageProps) {
             href={`/lenses/${nextSlug}`}
             className="flex items-center gap-2 rounded-full border border-warm-200 px-4 py-2 text-sm text-warm-600 transition-colors hover:border-warm-400 hover:text-warm-900"
           >
-            {LENS_NAMES[nextSlug]}
+            {LENS_DISPLAY_NAMES[nextSlug]}
             <span
               className="h-3 w-3 rounded-full"
               style={{ backgroundColor: LENS_COLORS[nextSlug].DEFAULT }}

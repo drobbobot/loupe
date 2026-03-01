@@ -19,6 +19,7 @@ import { assembleProfile } from "@/lib/profile-data";
 import { getSeedLens } from "@/lib/lens-data";
 import { PORTRAITS } from "@/lib/assessment/portraits";
 import { LoupeLogo } from "@/components/ui/loupe-logo";
+import { LENS_SLUGS, LENS_COLORS, LENS_DISPLAY_NAMES, LENS_TAGS, LENS_DESCRIPTIONS } from "@loupe/types";
 import type { AssessmentResult, LensSlug, ConfidenceLevel } from "@loupe/types";
 
 export default async function HomePage() {
@@ -171,14 +172,15 @@ export default async function HomePage() {
         </p>
 
         <div className="mt-8 space-y-4">
-          <LensRow color="#C4A882" name="Beige" tags="Survival · Instinct · Primal" desc="Stay alive. The body knows before the mind does." />
-          <LensRow color="#6B4E9B" name="Purple" tags="Magic · Tribe · Ancestral" desc="We belong to each other. The group holds us." />
-          <LensRow color="#C0392B" name="Red" tags="Power · Impulse · Dominance" desc="I will not be diminished. Strength is the point." />
-          <LensRow color="#1E3A6E" name="Blue" tags="Order · Duty · Tradition" desc="There is a right way to live. Follow it and things hold together." />
-          <LensRow color="#C4622D" name="Orange" tags="Achievement · Rational · Progress" desc="What actually works? Prove it and improve it." />
-          <LensRow color="#3D7A52" name="Green" tags="Pluralism · Empathy · Justice" desc="Every voice matters. No one gets left behind." />
-          <LensRow color="#B89A28" name="Yellow" tags="Integration · Systems · Fluidity" desc="Everything connects. Complexity isn&apos;t the problem — it&apos;s the territory." />
-          <LensRow color="#1A6B7A" name="Turquoise" tags="Holistic · Global · Flow" desc="The whole is alive. We&apos;re part of something larger." />
+          {LENS_SLUGS.map((slug) => (
+            <LensRow
+              key={slug}
+              color={LENS_COLORS[slug].DEFAULT}
+              name={LENS_DISPLAY_NAMES[slug]}
+              tags={LENS_TAGS[slug].join(" · ")}
+              desc={LENS_DESCRIPTIONS[slug]}
+            />
+          ))}
         </div>
 
         <div className="mt-8 text-center">

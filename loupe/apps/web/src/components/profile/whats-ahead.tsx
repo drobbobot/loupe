@@ -13,6 +13,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import type { ProfileData } from "@/lib/profile-data";
+import { DOMAIN_LABELS, LENS_COLORS } from "@loupe/types";
 
 interface WhatsAheadProps {
   profile: ProfileData;
@@ -99,6 +100,29 @@ export function WhatsAhead({ profile }: WhatsAheadProps) {
         >
           {profile.whatsAhead.secondaryNote}
         </p>
+
+        {/* Deep assessment: show where the secondary lens is strongest */}
+        {profile.deep && (() => {
+          const secondaryDomains = profile.deep.domainProfiles
+            .filter((dp) => dp.dominantLens === profile.secondaryLens || dp.secondaryLens === profile.secondaryLens)
+            .map((dp) => dp.domain);
+
+          if (secondaryDomains.length === 0) return null;
+
+          return (
+            <p
+              className="mt-3 text-xs leading-relaxed"
+              style={{ color: profile.secondaryColours.text + "bb" }}
+            >
+              Your {profile.secondaryDisplayName} lens is most active in{" "}
+              {secondaryDomains
+                .map((d) => DOMAIN_LABELS[d].split(" & ")[0].toLowerCase())
+                .join(secondaryDomains.length === 2 ? " and " : ", ")}
+              .
+            </p>
+          );
+        })()}
+
         <Link
           href={`/lenses/${profile.secondaryLens}`}
           className="mt-4 inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-white/50"

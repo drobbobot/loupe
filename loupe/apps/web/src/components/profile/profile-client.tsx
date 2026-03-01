@@ -31,6 +31,7 @@ import { ShareModal } from "./share-modal";
 import { DomainMap } from "./domain-map";
 import { ActiveLenses } from "./active-lenses";
 import { StressRegression } from "./stress-regression";
+import { GoDeepCta } from "./go-deeper-cta";
 
 interface ProfileClientProps {
   profile: ProfileData;
@@ -58,6 +59,16 @@ export function ProfileClient({ profile, completedAt }: ProfileClientProps) {
       </div>
 
       <HowYouShowUp profile={profile} />
+
+      {/* ── Go Deeper CTA (quick quiz only) ────────────────────────────────── */}
+      {!profile.deep && (
+        <>
+          <div className="mx-auto max-w-2xl px-6">
+            <div className="h-px bg-warm-200/60" />
+          </div>
+          <GoDeepCta profile={profile} />
+        </>
+      )}
 
       {/* ── Deep assessment sections ───────────────────────────────────────── */}
       {profile.deep && (

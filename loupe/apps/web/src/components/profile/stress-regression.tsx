@@ -11,24 +11,13 @@
 
 import { motion } from "framer-motion";
 import type { LensSlug } from "@loupe/types";
-import { LENS_COLORS } from "@loupe/types";
+import { LENS_COLORS, LENS_DISPLAY_NAMES } from "@loupe/types";
 
 interface StressRegressionProps {
   centreOfGravity: LensSlug;
   stressLens: LensSlug;
   narrative: string;
 }
-
-const LENS_NAMES: Record<LensSlug, string> = {
-  beige: "Beige",
-  purple: "Purple",
-  red: "Red",
-  blue: "Blue",
-  orange: "Orange",
-  green: "Green",
-  yellow: "Yellow",
-  turquoise: "Turquoise",
-};
 
 export function StressRegression({
   centreOfGravity,
@@ -61,7 +50,7 @@ export function StressRegression({
             style={{ backgroundColor: cogColors.DEFAULT }}
           />
           <span className="text-xs text-warm-500">
-            {LENS_NAMES[centreOfGravity]}
+            {LENS_DISPLAY_NAMES[centreOfGravity]}
           </span>
           <span className="text-[10px] text-warm-400">your centre</span>
         </div>
@@ -85,7 +74,7 @@ export function StressRegression({
             style={{ backgroundColor: stressColors.DEFAULT }}
           />
           <span className="text-xs text-warm-500">
-            {LENS_NAMES[stressLens]}
+            {LENS_DISPLAY_NAMES[stressLens]}
           </span>
           <span className="text-[10px] text-warm-400">under stress</span>
         </div>

@@ -103,6 +103,25 @@ export const LENS_TAGS: Record<LensSlug, string[]> = {
   turquoise: ["Holistic", "Global", "Flow"],
 };
 
+// Human-readable display names — single source of truth for all UI text
+// Every file that needs "Beige", "Purple", etc. should import this.
+export const LENS_DISPLAY_NAMES: Record<LensSlug, string> = {
+  beige: "Beige",
+  purple: "Purple",
+  red: "Red",
+  blue: "Blue",
+  orange: "Orange",
+  green: "Green",
+  yellow: "Yellow",
+  turquoise: "Turquoise",
+};
+
+// Pre-built array of { slug, name } for lens selectors, filters, etc.
+// Avoids the need to duplicate ALL_LENSES arrays in every component.
+export const ALL_LENSES: Array<{ slug: LensSlug; name: string }> = LENS_SLUGS.map(
+  (slug) => ({ slug, name: LENS_DISPLAY_NAMES[slug] })
+);
+
 // Canonical lens colours (mirrors tailwind.config.ts — keep in sync)
 export const LENS_COLORS: Record<LensSlug, { DEFAULT: string; bg: string; text: string }> = {
   beige:     { DEFAULT: "#C4A882", bg: "#F5EFE6", text: "#6B5A42" },
@@ -113,6 +132,34 @@ export const LENS_COLORS: Record<LensSlug, { DEFAULT: string; bg: string; text: 
   green:     { DEFAULT: "#3D7A52", bg: "#E0F0E8", text: "#224532" },
   yellow:    { DEFAULT: "#B89A28", bg: "#FAF0D0", text: "#6B5A10" },
   turquoise: { DEFAULT: "#1A6B7A", bg: "#D8EFF2", text: "#0E424C" },
+};
+
+// Minimal lens reference used in article tags, relationship selectors, etc.
+export interface LensReference {
+  slug: LensSlug;
+  displayName: string;
+  colourHex: string;
+}
+
+// Helper to build a LensReference from canonical data
+export function lensRef(slug: LensSlug): LensReference {
+  return {
+    slug,
+    displayName: LENS_DISPLAY_NAMES[slug],
+    colourHex: LENS_COLORS[slug].DEFAULT,
+  };
+}
+
+// One-line lens descriptions used on the home page and marketing surfaces
+export const LENS_DESCRIPTIONS: Record<LensSlug, string> = {
+  beige: "Stay alive. The body knows before the mind does.",
+  purple: "We belong to each other. The group holds us.",
+  red: "I will not be diminished. Strength is the point.",
+  blue: "There is a right way to live. Follow it and things hold together.",
+  orange: "What actually works? Prove it and improve it.",
+  green: "Every voice matters. No one gets left behind.",
+  yellow: "Everything connects. Complexity isn\u2019t the problem \u2014 it\u2019s the territory.",
+  turquoise: "The whole is alive. We\u2019re part of something larger.",
 };
 
 // ── Assessment ────────────────────────────────────────────────────────────────
@@ -284,12 +331,7 @@ export interface RelationshipGuide {
 
 // ── Content (Sanity) ──────────────────────────────────────────────────────────
 
-// Minimal lens reference used in article tags, relationship selectors, etc.
-export interface LensReference {
-  slug: LensSlug;
-  displayName: string;
-  colourHex: string;
-}
+// NOTE: LensReference is defined in the Lens section above (used by lensRef helper)
 
 export interface ArticlePreview {
   title: string;

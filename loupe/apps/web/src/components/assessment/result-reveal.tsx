@@ -19,24 +19,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { AssessmentResult, LensSlug, LifeDomain } from "@loupe/types";
-import { LENS_COLORS, DOMAIN_LABELS, LIFE_DOMAINS, isDeepResult } from "@loupe/types";
+import { LENS_COLORS, LENS_DISPLAY_NAMES, DOMAIN_LABELS, LIFE_DOMAINS, isDeepResult } from "@loupe/types";
 
 interface ResultRevealProps {
   result: AssessmentResult;
   onComplete: () => void;
 }
-
-// Lens display names
-const LENS_NAMES: Record<LensSlug, string> = {
-  beige: "Beige",
-  purple: "Purple",
-  red: "Red",
-  blue: "Blue",
-  orange: "Orange",
-  green: "Green",
-  yellow: "Yellow",
-  turquoise: "Turquoise",
-};
 
 // One-line evocative descriptions for the reveal moment
 const LENS_TAGLINES: Record<LensSlug, string> = {
@@ -120,7 +108,7 @@ function QuickReveal({
               className="font-serif text-5xl font-medium sm:text-7xl"
               style={{ color: colors.DEFAULT }}
             >
-              {LENS_NAMES[lens]}
+              {LENS_DISPLAY_NAMES[lens]}
             </motion.h1>
           )}
         </AnimatePresence>
@@ -243,7 +231,7 @@ function DeepReveal({
               className="font-serif text-5xl font-medium sm:text-7xl"
               style={{ color: colors.DEFAULT }}
             >
-              {LENS_NAMES[lens]}
+              {LENS_DISPLAY_NAMES[lens]}
             </motion.h1>
           )}
         </AnimatePresence>

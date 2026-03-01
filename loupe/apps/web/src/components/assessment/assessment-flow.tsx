@@ -18,6 +18,7 @@ import type {
   AssessmentTier,
   LensSlug,
 } from "@loupe/types";
+import { LIFE_DOMAINS } from "@loupe/types";
 import { useAssessmentStore } from "@/stores/assessment";
 import { LensGem } from "@/components/ui/lens-gem";
 import { ProgressBar } from "./progress-bar";
@@ -114,8 +115,8 @@ export function AssessmentFlow({
               </h1>
               <p className="mt-4 text-warm-600 leading-relaxed">
                 {store.tier === "deep"
-                  ? "This assessment maps how your lens shifts across the different areas of your life \u2014 work, relationships, conflict, politics, meaning, and change. About 15 minutes."
-                  : "Twelve questions, about 3 minutes. Discover the perspective you see the world through most naturally."}
+                  ? `This assessment maps how your lens shifts across the different areas of your life \u2014 ${LIFE_DOMAINS.slice(0, -1).join(", ")}, and ${LIFE_DOMAINS[LIFE_DOMAINS.length - 1]}. About 15 minutes.`
+                  : `${store.questions.length} questions, about 3 minutes. Discover the perspective you see the world through most naturally.`}
               </p>
               <p className="mt-3 text-warm-500 text-sm">
                 Answer with how you actually are, not how you&apos;d like to be.
@@ -132,8 +133,8 @@ export function AssessmentFlow({
 
               <p className="mt-6 text-xs text-warm-400">
                 {store.tier === "deep"
-                  ? `${store.questions.length} questions \u00b7 6 domains \u00b7 No account required`
-                  : "12 questions \u00b7 3 sections \u00b7 No account required"}
+                  ? `${store.questions.length} questions \u00b7 ${LIFE_DOMAINS.length} domains \u00b7 No account required`
+                  : `${store.questions.length} questions \u00b7 ${totalSections} sections \u00b7 No account required`}
               </p>
             </motion.div>
           )}

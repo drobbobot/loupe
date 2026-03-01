@@ -25,7 +25,7 @@ import type {
   LifeDomain,
   ConfidenceLevel,
 } from "@loupe/types";
-import { LENS_COLORS, LENS_GROUPS, isDeepResult } from "@loupe/types";
+import { LENS_COLORS, LENS_DISPLAY_NAMES, LENS_GROUPS, isDeepResult } from "@loupe/types";
 import type { LensProfile } from "@/lib/lens-data";
 import type { LensPortrait } from "@/lib/assessment/portraits";
 
@@ -84,19 +84,6 @@ export interface ProfileData {
     confidenceByDomain: Partial<Record<LifeDomain, ConfidenceLevel>>;
   } | null;
 }
-
-// ── Display name lookup ─────────────────────────────────────────────────────
-
-const LENS_DISPLAY_NAMES: Record<LensSlug, string> = {
-  beige: "Beige",
-  purple: "Purple",
-  red: "Red",
-  blue: "Blue",
-  orange: "Orange",
-  green: "Green",
-  yellow: "Yellow",
-  turquoise: "Turquoise",
-};
 
 // ── Second-person "How You Show Up" content ─────────────────────────────────
 // Each lens has three context panels: at work, in relationships, under stress.

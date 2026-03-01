@@ -14,7 +14,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { LENS_COLORS, type LensSlug } from "@loupe/types";
+import { LENS_COLORS, ALL_LENSES, type LensSlug } from "@loupe/types";
 
 interface FeedArticle {
   slug: string;
@@ -29,17 +29,6 @@ interface WorldFeedProps {
   articles: FeedArticle[];
   userPrimaryLens: LensSlug | null;
 }
-
-const ALL_LENSES: Array<{ slug: LensSlug; name: string }> = [
-  { slug: "beige", name: "Beige" },
-  { slug: "purple", name: "Purple" },
-  { slug: "red", name: "Red" },
-  { slug: "blue", name: "Blue" },
-  { slug: "orange", name: "Orange" },
-  { slug: "green", name: "Green" },
-  { slug: "yellow", name: "Yellow" },
-  { slug: "turquoise", name: "Turquoise" },
-];
 
 export function WorldFeed({ articles, userPrimaryLens }: WorldFeedProps) {
   const [activeLens, setActiveLens] = useState<LensSlug | null>(null);

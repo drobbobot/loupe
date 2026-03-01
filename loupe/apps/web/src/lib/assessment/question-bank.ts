@@ -11,6 +11,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { AssessmentQuestion, LifeDomain } from "@loupe/types";
+import { LIFE_DOMAINS } from "@loupe/types";
 import { SEED_QUESTIONS } from "./questions";
 import { DEEP_ADDITIONAL_QUESTIONS } from "./questions-deep";
 
@@ -84,23 +85,10 @@ export function getDeepQuestions(): AssessmentQuestion[] {
   const allQuestions = [...SEED_QUESTIONS, ...DEEP_ADDITIONAL_QUESTIONS];
 
   // Group by domain, maintaining a good flow within each domain
-  const domainOrder: LifeDomain[] = [
-    "work",
-    "relationships",
-    "politics",
-    "conflict",
-    "meaning",
-    "change",
-  ];
-
-  const domainSectionMap: Record<LifeDomain, number> = {
-    work: 1,
-    relationships: 2,
-    politics: 3,
-    conflict: 4,
-    meaning: 5,
-    change: 6,
-  };
+  // Section numbers are 1-indexed, following the order of LIFE_DOMAINS
+  const domainSectionMap = Object.fromEntries(
+    LIFE_DOMAINS.map((d, i) => [d, i + 1])
+  ) as Record<LifeDomain, number>;
 
   const domainTransitions: Record<LifeDomain, string> = {
     work:
@@ -119,7 +107,7 @@ export function getDeepQuestions(): AssessmentQuestion[] {
 
   const ordered: AssessmentQuestion[] = [];
 
-  for (const domain of domainOrder) {
+  for (const domain of LIFE_DOMAINS) {
     const domainQs = allQuestions
       .filter((q) => q.domain === domain)
       // Keep original order within each domain (seed questions first, then deep)
@@ -190,3 +178,10 @@ function withQuickMeta(
     sectionTransition,
   };
 }
+
+// ── Lightweight count exports ────────────────────────────────────────────────
+// Use these instead of calling getQuickQuestions().length in client components
+// to avoid bundling the entire question pool.
+
+export const QUICK_QUESTION_COUNT = QUICK_QUESTION_IDS.size;
+export const DEEP_QUESTION_COUNT = SEED_QUESTIONS.length + DEEP_ADDITIONAL_QUESTIONS.length;

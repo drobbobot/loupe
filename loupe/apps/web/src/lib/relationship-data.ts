@@ -12,7 +12,7 @@
 // All other combinations use a template generator based on lens properties.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { LENS_COLORS, type LensSlug } from "@loupe/types";
+import { LENS_COLORS, LENS_DISPLAY_NAMES, LENS_SLUGS, type LensSlug } from "@loupe/types";
 import { getSeedLens, type LensProfile } from "./lens-data";
 
 export interface RelationshipSeed {
@@ -35,11 +35,6 @@ export interface RelationshipSeed {
 function pairKey(a: LensSlug, b: LensSlug): string {
   return [a, b].sort().join("-");
 }
-
-const LENS_DISPLAY: Record<LensSlug, string> = {
-  beige: "Beige", purple: "Purple", red: "Red", blue: "Blue",
-  orange: "Orange", green: "Green", yellow: "Yellow", turquoise: "Turquoise",
-};
 
 // ── Priority Pair Content ───────────────────────────────────────────────────
 
@@ -295,10 +290,6 @@ function generateTemplate(a: LensProfile, b: LensProfile): RelationshipSeed {
 
 // ── Public API ───────────────────────────────────────────────────────────────
 
-const ALL_SLUGS: LensSlug[] = [
-  "beige", "purple", "red", "blue", "orange", "green", "yellow", "turquoise",
-];
-
 /**
  * Get a relationship guide for any two lenses.
  * Returns priority-authored content when available, otherwise template-generated.
@@ -328,10 +319,10 @@ export function getRelationship(lensA: LensSlug, lensB: LensSlug): RelationshipS
 export function getAllPairs(): Array<{ lensA: LensSlug; lensB: LensSlug; quality: "full" | "template" }> {
   const pairs: Array<{ lensA: LensSlug; lensB: LensSlug; quality: "full" | "template" }> = [];
 
-  for (let i = 0; i < ALL_SLUGS.length; i++) {
-    for (let j = i; j < ALL_SLUGS.length; j++) {
-      const a = ALL_SLUGS[i];
-      const b = ALL_SLUGS[j];
+  for (let i = 0; i < LENS_SLUGS.length; i++) {
+    for (let j = i; j < LENS_SLUGS.length; j++) {
+      const a = LENS_SLUGS[i];
+      const b = LENS_SLUGS[j];
       const key = pairKey(a, b);
       pairs.push({
         lensA: a,
@@ -350,9 +341,9 @@ export function getAllPairs(): Array<{ lensA: LensSlug; lensB: LensSlug; quality
 export function getLensDisplayInfo(slug: LensSlug) {
   return {
     slug,
-    name: LENS_DISPLAY[slug],
+    name: LENS_DISPLAY_NAMES[slug],
     colors: LENS_COLORS[slug],
   };
 }
 
-export { LENS_DISPLAY, ALL_SLUGS };
+export { LENS_DISPLAY_NAMES, LENS_SLUGS };

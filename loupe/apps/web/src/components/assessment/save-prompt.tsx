@@ -19,22 +19,11 @@ import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import type { AssessmentResult, LensSlug } from "@loupe/types";
-import { LENS_COLORS } from "@loupe/types";
+import { LENS_COLORS, LENS_DISPLAY_NAMES } from "@loupe/types";
 
 interface SavePromptProps {
   result: AssessmentResult;
 }
-
-const LENS_NAMES: Record<LensSlug, string> = {
-  beige: "Beige",
-  purple: "Purple",
-  red: "Red",
-  blue: "Blue",
-  orange: "Orange",
-  green: "Green",
-  yellow: "Yellow",
-  turquoise: "Turquoise",
-};
 
 export function SavePrompt({ result }: SavePromptProps) {
   const router = useRouter();
@@ -73,7 +62,7 @@ export function SavePrompt({ result }: SavePromptProps) {
           className="mb-8 flex h-16 w-16 items-center justify-center rounded-2xl text-2xl font-medium text-white"
           style={{ backgroundColor: colors.DEFAULT }}
         >
-          {LENS_NAMES[result.primaryLens][0]}
+          {LENS_DISPLAY_NAMES[result.primaryLens][0]}
         </div>
 
         <h2
@@ -86,7 +75,7 @@ export function SavePrompt({ result }: SavePromptProps) {
         <p className="mt-4 text-warm-600" style={{ color: colors.text + "cc" }}>
           Create a free account to keep your{" "}
           <strong style={{ color: colors.DEFAULT }}>
-            {LENS_NAMES[result.primaryLens]}
+            {LENS_DISPLAY_NAMES[result.primaryLens]}
           </strong>{" "}
           profile, explore your full portrait, and unlock the lens library.
         </p>

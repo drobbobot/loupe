@@ -11,7 +11,7 @@
 // identifies missing discourse, and offers an understanding-generating frame.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import type { LensSlug } from "@loupe/types";
+import { lensRef, type LensSlug } from "@loupe/types";
 
 export interface SeedArticle {
   slug: string;
@@ -29,16 +29,16 @@ export interface ArticleSection {
   text: string;
 }
 
-// Lens colour references for tagging
+// Lens colour references for tagging — derived from canonical data
 const LENS_REF: Record<LensSlug, { slug: LensSlug; displayName: string; colourHex: string }> = {
-  beige: { slug: "beige", displayName: "Beige", colourHex: "#C4A882" },
-  purple: { slug: "purple", displayName: "Purple", colourHex: "#6B4E9B" },
-  red: { slug: "red", displayName: "Red", colourHex: "#C0392B" },
-  blue: { slug: "blue", displayName: "Blue", colourHex: "#1E3A6E" },
-  orange: { slug: "orange", displayName: "Orange", colourHex: "#C4622D" },
-  green: { slug: "green", displayName: "Green", colourHex: "#3D7A52" },
-  yellow: { slug: "yellow", displayName: "Yellow", colourHex: "#B89A28" },
-  turquoise: { slug: "turquoise", displayName: "Turquoise", colourHex: "#1A6B7A" },
+  beige: lensRef("beige"),
+  purple: lensRef("purple"),
+  red: lensRef("red"),
+  blue: lensRef("blue"),
+  orange: lensRef("orange"),
+  green: lensRef("green"),
+  yellow: lensRef("yellow"),
+  turquoise: lensRef("turquoise"),
 };
 
 // ── 10 Launch Articles ──────────────────────────────────────────────────────
