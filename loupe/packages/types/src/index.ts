@@ -117,6 +117,45 @@ export const LENS_COLORS: Record<LensSlug, { DEFAULT: string; bg: string; text: 
 
 // ── Assessment ────────────────────────────────────────────────────────────────
 
+// Life domains — the 6 contexts the deep assessment maps across
+export type LifeDomain =
+  | "work"
+  | "relationships"
+  | "politics"
+  | "conflict"
+  | "meaning"
+  | "change";
+
+export const LIFE_DOMAINS: LifeDomain[] = [
+  "work",
+  "relationships",
+  "politics",
+  "conflict",
+  "meaning",
+  "change",
+];
+
+export const DOMAIN_LABELS: Record<LifeDomain, string> = {
+  work:          "Work & Ambition",
+  relationships: "Relationships & Intimacy",
+  politics:      "Politics & Society",
+  conflict:      "Conflict & Stress",
+  meaning:       "Meaning & Purpose",
+  change:        "Change & Uncertainty",
+};
+
+export const DOMAIN_ICONS: Record<LifeDomain, string> = {
+  work:          "briefcase",
+  relationships: "heart",
+  politics:      "landmark",
+  conflict:      "shield",
+  meaning:       "compass",
+  change:        "wind",
+};
+
+// Assessment tier — quick quiz vs full deep assessment
+export type AssessmentTier = "quick" | "deep";
+
 export type InputType =
   | "slider"
   | "multiple_choice"
@@ -135,6 +174,10 @@ export interface AssessmentQuestion {
   sliderConfig?: { labelMin: string; labelMax: string };
   // Transition copy shown before this section (first question of section only)
   sectionTransition?: string;
+  // Life domain this question maps to (deep assessment uses this for per-domain scoring)
+  domain?: LifeDomain;
+  // Which assessment tier(s) use this question
+  tier?: AssessmentTier | "both";
   // Note: weights and lens mappings are NOT here.
   // They live server-side in apps/web/src/lib/assessment/weights.ts
 }
@@ -149,9 +192,11 @@ export interface AssessmentResponse {
 // Internal confidence level — not shown to user, used for portrait caveats
 export type ConfidenceLevel = "high" | "medium" | "low";
 
-// What the server returns from POST /api/assessment/submit
-// Raw scores per lens are NOT returned — only the portrait data needed to render
+// ── Assessment Results ──────────────────────────────────────────────────────
+
+// Base result shape — shared across both tiers
 export interface AssessmentResult {
+  tier: AssessmentTier;
   primaryLens: LensSlug;
   secondaryLens: LensSlug;
   shadowFlags: {
@@ -163,12 +208,46 @@ export interface AssessmentResult {
   inflationFlag: boolean;
 }
 
+// Per-domain lens breakdown (deep assessment only)
+export interface DomainLensProfile {
+  domain: LifeDomain;
+  dominantLens: LensSlug;
+  secondaryLens: LensSlug;
+  /** Normalised 0–1 scores per lens within this domain */
+  scores: Record<LensSlug, number>;
+}
+
+// Extended result from the deep assessment
+export interface DeepAssessmentResult extends AssessmentResult {
+  tier: "deep";
+  /** Overall centre of gravity across all domains */
+  centreOfGravity: LensSlug;
+  /** Per-domain lens profiles */
+  domainProfiles: DomainLensProfile[];
+  /** Lens they tend to drop to under stress (null if no regression detected) */
+  stressRegression: LensSlug | null;
+  /** All 8 lenses ranked by overall activation strength */
+  activeLenses: Array<{ lens: LensSlug; strength: number }>;
+  /** Per-domain confidence levels */
+  confidenceByDomain: Partial<Record<LifeDomain, ConfidenceLevel>>;
+  /** Domain-specific narrative descriptions */
+  domainNarratives: Record<LifeDomain, string>;
+  /** Stress regression narrative (null if no regression) */
+  stressNarrative: string | null;
+}
+
+// Type guard for deep results
+export function isDeepResult(result: AssessmentResult): result is DeepAssessmentResult {
+  return result.tier === "deep";
+}
+
 // Stored in DB — extends AssessmentResult with metadata
-export interface StoredAssessmentResult extends AssessmentResult {
+export interface StoredAssessmentResult {
   id: string;
   userId: string;
   completedAt: string;
-  responses: AssessmentResponse[]; // raw responses stored for potential re-scoring
+  result: AssessmentResult;             // the scored portrait (quick or deep)
+  responses: AssessmentResponse[];      // raw responses stored for potential re-scoring
 }
 
 // ── User ──────────────────────────────────────────────────────────────────────

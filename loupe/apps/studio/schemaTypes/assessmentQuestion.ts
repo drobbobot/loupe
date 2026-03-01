@@ -19,20 +19,20 @@ export const assessmentQuestion = defineType({
       title: "Question ID",
       type: "string",
       description:
-        "Stable identifier used in assessment responses and scoring weights. Never change after launch. Format: q001, q002, ...",
+        "Stable identifier used in assessment responses and scoring weights. Never change after launch. Format: q001 (original) or d001 (deep-only).",
       validation: (Rule) =>
-        Rule.required().regex(/^q\d{3}$/, {
+        Rule.required().regex(/^[qd]\d{3}$/, {
           name: "question ID format",
           invert: false,
         }),
     }),
     defineField({
       name: "section",
-      title: "Section (1–5)",
+      title: "Section (1–6)",
       type: "number",
       description:
-        "Which section of the assessment this question belongs to. Each section is 6–8 questions with a transition moment between them.",
-      validation: (Rule) => Rule.required().integer().min(1).max(5),
+        "Which section of the assessment this question belongs to. Quick quiz: 3 sections. Deep: 6 domain-based sections.",
+      validation: (Rule) => Rule.required().integer().min(1).max(6),
     }),
     defineField({
       name: "order",
@@ -137,6 +137,45 @@ export const assessmentQuestion = defineType({
       hidden: ({ document }) => document?.inputType !== "slider",
     }),
 
+    // ── Life domain ─────────────────────────────────────────────────────
+    defineField({
+      name: "domain",
+      title: "Life domain",
+      type: "string",
+      description:
+        "Which life domain this question maps to. Used for per-domain scoring in the deep assessment.",
+      options: {
+        list: [
+          { title: "Work & Ambition", value: "work" },
+          { title: "Relationships & Intimacy", value: "relationships" },
+          { title: "Politics & Society", value: "politics" },
+          { title: "Conflict & Stress", value: "conflict" },
+          { title: "Meaning & Purpose", value: "meaning" },
+          { title: "Change & Uncertainty", value: "change" },
+        ],
+        layout: "dropdown",
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+
+    // ── Assessment tier ───────────────────────────────────────────────────
+    defineField({
+      name: "tier",
+      title: "Assessment tier",
+      type: "string",
+      description:
+        'Which assessment tier(s) use this question. "both" means used in quick quiz AND deep assessment. "deep" means deep assessment only.',
+      options: {
+        list: [
+          { title: "Both (Quick + Deep)", value: "both" },
+          { title: "Deep only", value: "deep" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "deep",
+      validation: (Rule) => Rule.required(),
+    }),
+
     // ── Section transition copy ──────────────────────────────────────────
     defineField({
       name: "sectionTransition",
@@ -154,11 +193,14 @@ export const assessmentQuestion = defineType({
       order: "order",
       questionText: "questionText",
       inputType: "inputType",
+      domain: "domain",
+      tier: "tier",
     },
-    prepare({ id, section, order, questionText, inputType }) {
+    prepare({ id, section, order, questionText, inputType, domain, tier }) {
+      const tierBadge = tier === "both" ? "Q+D" : "D";
       return {
         title: `${id} — ${questionText?.slice(0, 60) ?? ""}${(questionText?.length ?? 0) > 60 ? "…" : ""}`,
-        subtitle: `Section ${section}, Q${order} — ${inputType}`,
+        subtitle: `[${tierBadge}] ${domain ?? "?"} · Section ${section}, Q${order} — ${inputType}`,
       };
     },
   },

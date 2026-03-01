@@ -7,5 +7,19 @@
 // ██████████████████████████████████████████████████████████████████████████████
 // ─────────────────────────────────────────────────────────────────────────────
 
-export { scoreAssessment } from "./scoring";
+// Scoring
+export {
+  scoreAssessment,
+  scoreQuickAssessment,
+  scoreDeepAssessment,
+} from "./scoring";
+
+// Question pools (server-side for seed scripts; clients get questions via props)
 export { SEED_QUESTIONS } from "./questions";
+export { DEEP_ADDITIONAL_QUESTIONS } from "./questions-deep";
+export {
+  getQuickQuestions,
+  getDeepQuestions,
+  getDeepQuestionsExcluding,
+  getQuestionDomainMap,
+} from "./question-bank";

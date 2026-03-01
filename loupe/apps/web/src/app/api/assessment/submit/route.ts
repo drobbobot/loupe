@@ -4,10 +4,9 @@
 // Receives raw assessment responses and returns a portrait result.
 // Scoring happens entirely server-side — the client never sees raw scores.
 //
-// Architecture (architecture.md §6):
-//   Client sends:  { responses: [{questionId, responseValue, inputType}] }
-//   Server returns: { primaryLens, secondaryLens, shadowFlags, growthOrientation,
-//                     confidenceLevel, inflationFlag }
+// Supports both tiers:
+//   { tier: "quick", responses: [...] }  → Quick Quiz scoring
+//   { tier: "deep",  responses: [...] }  → Deep Assessment scoring
 //
 // Auth is OPTIONAL at this endpoint:
 //   - Unauthenticated users can complete the assessment (pre-signup flow)
@@ -17,8 +16,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { NextResponse } from "next/server";
-import type { AssessmentResponse } from "@loupe/types";
-import { scoreAssessment } from "@/lib/assessment";
+import type { AssessmentResponse, AssessmentTier } from "@loupe/types";
+import { scoreQuickAssessment, scoreDeepAssessment } from "@/lib/assessment";
 import { createClient, createServiceClient } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
@@ -26,6 +25,7 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     // ── Validate request ──────────────────────────────────────────────────
+    const tier = (body.tier as AssessmentTier) ?? "quick";
     const responses = body.responses as AssessmentResponse[] | undefined;
 
     if (!responses || !Array.isArray(responses) || responses.length === 0) {
@@ -48,7 +48,10 @@ export async function POST(request: Request) {
     }
 
     // ── Score the assessment ──────────────────────────────────────────────
-    const result = scoreAssessment(responses);
+    const result =
+      tier === "deep"
+        ? scoreDeepAssessment(responses)
+        : scoreQuickAssessment(responses);
 
     // ── Check if user is authenticated ────────────────────────────────────
     const supabase = await createClient();
@@ -65,6 +68,7 @@ export async function POST(request: Request) {
         .from("assessment_results")
         .insert({
           user_id: user.id,
+          tier,
           responses: responses as unknown as Record<string, unknown>,
           primary_lens: result.primaryLens,
           secondary_lens: result.secondaryLens,
@@ -72,6 +76,8 @@ export async function POST(request: Request) {
           growth_orientation: result.growthOrientation,
           confidence_level: result.confidenceLevel,
           inflation_flag: result.inflationFlag,
+          // Deep-specific fields stored as JSON in a `deep_result` column
+          deep_result: tier === "deep" ? result : null,
         });
 
       if (insertError) {

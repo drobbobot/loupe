@@ -17,8 +17,15 @@
 //   - Growth orientation is descriptive, not prescriptive
 // ─────────────────────────────────────────────────────────────────────────────
 
-import type { AssessmentResult, LensSlug, ConfidenceLevel } from "@loupe/types";
-import { LENS_COLORS, LENS_GROUPS } from "@loupe/types";
+import type {
+  AssessmentResult,
+  DeepAssessmentResult,
+  DomainLensProfile,
+  LensSlug,
+  LifeDomain,
+  ConfidenceLevel,
+} from "@loupe/types";
+import { LENS_COLORS, LENS_GROUPS, isDeepResult } from "@loupe/types";
 import type { LensProfile } from "@/lib/lens-data";
 import type { LensPortrait } from "@/lib/assessment/portraits";
 
@@ -65,6 +72,17 @@ export interface ProfileData {
   inflationFlag: boolean;
   confidenceNote: string | null;
   inflationNote: string | null;
+
+  // ── Deep assessment extensions (null for quick quiz) ────────────────────
+  deep: {
+    centreOfGravity: LensSlug;
+    domainProfiles: DomainLensProfile[];
+    stressRegression: LensSlug | null;
+    stressNarrative: string | null;
+    activeLenses: Array<{ lens: LensSlug; strength: number }>;
+    domainNarratives: Record<LifeDomain, string>;
+    confidenceByDomain: Partial<Record<LifeDomain, ConfidenceLevel>>;
+  } | null;
 }
 
 // ── Display name lookup ─────────────────────────────────────────────────────
@@ -232,20 +250,35 @@ function getInflationNote(inflationFlag: boolean): string | null {
 
 export function assembleProfile(
   result: AssessmentResult,
-  primaryLens: LensProfile,
-  secondaryLens: LensProfile,
+  primaryLensProfile: LensProfile,
+  secondaryLensProfile: LensProfile,
   portrait: LensPortrait
 ): ProfileData {
   const primary = result.primaryLens;
   const secondary = result.secondaryLens;
 
+  // Build deep-specific data if this is a deep result
+  let deep: ProfileData["deep"] = null;
+
+  if (isDeepResult(result)) {
+    deep = {
+      centreOfGravity: result.centreOfGravity,
+      domainProfiles: result.domainProfiles,
+      stressRegression: result.stressRegression,
+      stressNarrative: result.stressNarrative,
+      activeLenses: result.activeLenses,
+      domainNarratives: result.domainNarratives,
+      confidenceByDomain: result.confidenceByDomain,
+    };
+  }
+
   return {
     primaryLens: primary,
     secondaryLens: secondary,
-    displayName: primaryLens.displayName,
-    secondaryDisplayName: secondaryLens.displayName,
-    tagline: primaryLens.tagline,
-    group: primaryLens.group,
+    displayName: primaryLensProfile.displayName,
+    secondaryDisplayName: secondaryLensProfile.displayName,
+    tagline: primaryLensProfile.tagline,
+    group: primaryLensProfile.group,
     colours: LENS_COLORS[primary],
     secondaryColours: LENS_COLORS[secondary],
 
@@ -270,5 +303,7 @@ export function assembleProfile(
     inflationFlag: result.inflationFlag,
     confidenceNote: getConfidenceNote(result.confidenceLevel),
     inflationNote: getInflationNote(result.inflationFlag),
+
+    deep,
   };
 }

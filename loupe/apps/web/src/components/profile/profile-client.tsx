@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import { setLensTheme, clearLensTheme } from "@/lib/lens-theme";
 import { extractShareQuotes } from "@/lib/share-quotes";
 import type { ProfileData } from "@/lib/profile-data";
+import type { DeepAssessmentResult } from "@loupe/types";
 import { ProfileHeader } from "./profile-header";
 import { ConfidenceNotes } from "./confidence-notes";
 import { HowYouShowUp } from "./how-you-show-up";
@@ -27,6 +28,9 @@ import { WhatsAhead } from "./whats-ahead";
 import { LensInTheWorld } from "./lens-in-the-world";
 import { RetakePrompt } from "./retake-prompt";
 import { ShareModal } from "./share-modal";
+import { DomainMap } from "./domain-map";
+import { ActiveLenses } from "./active-lenses";
+import { StressRegression } from "./stress-regression";
 
 interface ProfileClientProps {
   profile: ProfileData;
@@ -54,6 +58,52 @@ export function ProfileClient({ profile, completedAt }: ProfileClientProps) {
       </div>
 
       <HowYouShowUp profile={profile} />
+
+      {/* ── Deep assessment sections ───────────────────────────────────────── */}
+      {profile.deep && (
+        <>
+          {/* Divider */}
+          <div className="mx-auto max-w-2xl px-6">
+            <div className="h-px bg-warm-200/60" />
+          </div>
+
+          <DomainMap
+            result={
+              {
+                centreOfGravity: profile.deep.centreOfGravity,
+                domainProfiles: profile.deep.domainProfiles,
+                domainNarratives: profile.deep.domainNarratives,
+              } as DeepAssessmentResult
+            }
+          />
+
+          {/* Divider */}
+          <div className="mx-auto max-w-2xl px-6">
+            <div className="h-px bg-warm-200/60" />
+          </div>
+
+          <ActiveLenses
+            activeLenses={profile.deep.activeLenses}
+            primaryLens={profile.primaryLens}
+            secondaryLens={profile.secondaryLens}
+          />
+
+          {profile.deep.stressRegression && profile.deep.stressNarrative && (
+            <>
+              {/* Divider */}
+              <div className="mx-auto max-w-2xl px-6">
+                <div className="h-px bg-warm-200/60" />
+              </div>
+
+              <StressRegression
+                centreOfGravity={profile.deep.centreOfGravity}
+                stressLens={profile.deep.stressRegression}
+                narrative={profile.deep.stressNarrative}
+              />
+            </>
+          )}
+        </>
+      )}
 
       {/* Divider */}
       <div className="mx-auto max-w-2xl px-6">

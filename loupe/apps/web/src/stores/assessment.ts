@@ -1,17 +1,16 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Loupe — Assessment Flow State (Zustand)
 //
-// Client-side store managing the full assessment journey:
-//   - Current question index and section
-//   - Collected responses
-//   - Submission status
-//   - Result data (after scoring)
+// Client-side store managing the full assessment journey for both tiers:
+//   Quick Quiz:     12 questions, 3 sections, basic portrait result
+//   Deep Assessment: 60 questions, 6 domain sections, full portrait with domain map
 //
 // Architecture notes:
 //   - Responses are stored locally until submission
 //   - Scoring happens server-side via POST /api/assessment/submit
 //   - This store holds the returned portrait result for the reveal UI
 //   - Raw scores are NEVER available client-side
+//   - Pre-populated responses (from quick quiz) are merged into the deep flow
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { create } from "zustand";
@@ -19,6 +18,7 @@ import type {
   AssessmentQuestion,
   AssessmentResponse,
   AssessmentResult,
+  AssessmentTier,
 } from "@loupe/types";
 
 // ── Types ────────────────────────────────────────────────────────────────────
@@ -35,16 +35,21 @@ type AssessmentPhase =
   | "error";       // something went wrong
 
 interface AssessmentState {
+  // ── Assessment tier ───────────────────────────────────────────────────
+  tier: AssessmentTier;
+
   // ── Questions ───────────────────────────────────────────────────────────
   questions: AssessmentQuestion[];
   currentIndex: number;
 
   // ── Responses ───────────────────────────────────────────────────────────
   responses: AssessmentResponse[];
+  /** Responses carried over from a previous quick quiz (for pre-populate flow) */
+  prePopulatedResponses: AssessmentResponse[];
 
   // ── Navigation ──────────────────────────────────────────────────────────
   phase: AssessmentPhase;
-  /** Which section we're currently in (1-5) */
+  /** Which section we're currently in */
   currentSection: number;
 
   // ── Result ──────────────────────────────────────────────────────────────
@@ -53,7 +58,11 @@ interface AssessmentState {
 
   // ── Actions ─────────────────────────────────────────────────────────────
   /** Load questions and initialise the assessment */
-  initialise: (questions: AssessmentQuestion[]) => void;
+  initialise: (
+    questions: AssessmentQuestion[],
+    tier: AssessmentTier,
+    prePopulated?: AssessmentResponse[]
+  ) => void;
 
   /** Begin the assessment from the intro screen */
   start: () => void;
@@ -107,21 +116,25 @@ function shouldShowTransition(
 
 export const useAssessmentStore = create<AssessmentState>((set, get) => ({
   // Initial state
+  tier: "quick",
   questions: [],
   currentIndex: 0,
   responses: [],
+  prePopulatedResponses: [],
   phase: "loading",
   currentSection: 1,
   result: null,
   error: null,
 
-  initialise: (questions) => {
+  initialise: (questions, tier, prePopulated) => {
     set({
       questions,
+      tier,
       currentIndex: 0,
       responses: [],
+      prePopulatedResponses: prePopulated ?? [],
       phase: "intro",
-      currentSection: 1,
+      currentSection: questions[0]?.section ?? 1,
       result: null,
       error: null,
     });
@@ -199,15 +212,21 @@ export const useAssessmentStore = create<AssessmentState>((set, get) => ({
   },
 
   submit: async () => {
-    const { responses } = get();
+    const { responses, prePopulatedResponses, tier } = get();
 
     set({ phase: "submitting", error: null });
+
+    // Merge pre-populated responses with new responses for the deep assessment
+    const allResponses =
+      tier === "deep" && prePopulatedResponses.length > 0
+        ? [...prePopulatedResponses, ...responses]
+        : responses;
 
     try {
       const res = await fetch("/api/assessment/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ responses }),
+        body: JSON.stringify({ tier, responses: allResponses }),
       });
 
       if (!res.ok) {
@@ -248,9 +267,11 @@ export const useAssessmentStore = create<AssessmentState>((set, get) => ({
 
   reset: () => {
     set({
+      tier: "quick",
       questions: [],
       currentIndex: 0,
       responses: [],
+      prePopulatedResponses: [],
       phase: "loading",
       currentSection: 1,
       result: null,

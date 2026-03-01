@@ -404,6 +404,290 @@ export const WEIGHTS: Record<string, QuestionWeight> = {
       b: { purple: 2, green: 2, turquoise: 1 },   // belonging
     },
   },
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // DEEP ASSESSMENT — Additional Questions (d001–d025)
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  // ━━ WORK & AMBITION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  d001: {
+    // "Layoffs announced — first concern..."
+    type: "choice",
+    options: {
+      a: { orange: 3, red: 1 },                   // make myself indispensable
+      b: { blue: 3 },                             // fair process
+      c: { green: 3, purple: 1 },                 // support affected people
+      d: { yellow: 3 },                           // structural problem
+    },
+  },
+
+  d002: {
+    // "Junior colleague's idea won't work..."
+    type: "choice",
+    options: {
+      a: { orange: 2, red: 1 },                   // let them try (fail fast)
+      b: { green: 2, purple: 1 },                 // gently steer
+      c: { red: 3 },                              // tell them directly
+      d: { yellow: 3 },                           // test small-scale
+    },
+  },
+
+  d003: {
+    // "Someone takes credit for your work..."
+    // RESISTANCE QUESTION — what annoys you reveals your lens
+    type: "choice",
+    options: {
+      a: { red: 3 },                              // call it out immediately
+      b: { blue: 2, orange: 2 },                  // address privately
+      c: { green: 2, turquoise: 1 },              // let it go
+      d: { purple: 2, green: 1 },                 // worry about scene
+    },
+  },
+
+  d004: {
+    // "What frustrates you most in a colleague?"
+    // RESISTANCE PATTERN — what irritates = diagnostic signal
+    type: "choice",
+    options: {
+      a: { orange: 3 },                           // hates inefficiency
+      b: { blue: 3 },                             // hates cutting corners
+      c: { green: 3 },                            // hates exclusion
+      d: { yellow: 2, red: 1 },                   // hates rigidity
+    },
+  },
+
+  // ━━ RELATIONSHIPS & INTIMACY ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  d005: {
+    // "Partner wants holidays with their family..."
+    type: "choice",
+    options: {
+      a: { purple: 3, blue: 1 },                  // tradition matters
+      b: { orange: 2, blue: 2 },                  // alternate fairly
+      c: { green: 3 },                            // their happiness matters more
+      d: { yellow: 3 },                           // creative new approach
+    },
+  },
+
+  d006: {
+    // "Friend dating someone bad for them..."
+    type: "choice",
+    options: {
+      a: { red: 2, orange: 1 },                   // say something directly
+      b: { yellow: 2, orange: 1 },                // their choice
+      c: { green: 3 },                            // gentle concern + support
+      d: { purple: 3 },                           // check with group first
+    },
+  },
+
+  d007: {
+    // "Needing space in closest relationship..."
+    // TENSION PAIR candidate with d008
+    type: "choice",
+    options: {
+      a: { red: 2, orange: 2 },                   // direct — need space
+      b: { purple: 2, green: 2 },                 // hard to ask — avoid rejection
+    },
+  },
+
+  d008: {
+    // "What feels most like betrayal in friendship..."
+    // RESISTANCE PATTERN — reveals core values
+    type: "choice",
+    options: {
+      a: { blue: 2, purple: 2 },                  // broken confidence
+      b: { purple: 3 },                           // not showing up
+      c: { green: 2, red: 1 },                    // talking behind back
+      d: { orange: 2, yellow: 1 },                // not being honest
+    },
+  },
+
+  // ━━ POLITICS & SOCIETY ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  d009: {
+    // "City banning cars downtown..."
+    type: "choice",
+    options: {
+      a: { red: 2, orange: 2 },                   // overreach / freedom
+      b: { orange: 3 },                           // data-driven action
+      c: { green: 3 },                            // inclusive process
+      d: { yellow: 3 },                           // whole-system thinking
+    },
+  },
+
+  d010: {
+    // "School board removing books..."
+    type: "choice",
+    options: {
+      a: { blue: 3 },                             // standards needed
+      b: { red: 2, orange: 2 },                   // censorship wrong
+      c: { green: 3 },                            // silenced voices matter
+      d: { yellow: 3 },                           // both sides, better process
+    },
+  },
+
+  d011: {
+    // "Government staying out of people's way..."
+    // Low: government should protect → Blue/Green    High: freedom → Red/Orange
+    type: "slider",
+    low: { blue: 2, green: 2 },
+    high: { red: 2, orange: 2 },
+  },
+
+  d012: {
+    // "Wealthy neighbourhood opposes homeless shelter..."
+    type: "choice",
+    options: {
+      a: { orange: 2, red: 1 },                   // property rights
+      b: { green: 3 },                            // NIMBYism is selfish
+      c: { blue: 2, green: 1 },                   // greater good
+      d: { yellow: 3 },                           // address root cause
+    },
+  },
+
+  // ━━ CONFLICT & STRESS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  d013: {
+    // "Organisation doing something unethical..."
+    type: "choice",
+    options: {
+      a: { blue: 3, red: 1 },                     // report immediately
+      b: { beige: 2, orange: 1 },                 // self-preserve / leave
+      c: { orange: 2, yellow: 2 },                // change from within
+      d: { green: 3 },                            // build coalition
+    },
+  },
+
+  d014: {
+    // "Two people you care about in conflict..."
+    type: "choice",
+    options: {
+      a: { blue: 2, red: 2 },                     // pick the right side
+      b: { orange: 1, beige: 1 },                 // refuse to engage
+      c: { yellow: 3 },                           // mediate
+      d: { green: 2, purple: 2 },                 // support both
+    },
+  },
+
+  d015: {
+    // "At most stressed — what do you actually do?"
+    // "WHAT I'D ACTUALLY DO" FRAMING — behaviour vs belief
+    type: "choice",
+    options: {
+      a: { red: 3 },                              // snap at people
+      b: { beige: 2, turquoise: 1 },              // withdraw / shut out
+      c: { orange: 3 },                           // overwork
+      d: { purple: 3 },                           // seek reassurance
+    },
+  },
+
+  d016: {
+    // "Which loss would affect you most deeply?"
+    type: "ranked",
+    items: {
+      reputation: { orange: 3, red: 1 },           // losing reputation
+      community: { purple: 3, green: 1 },          // losing community
+      safety: { beige: 3 },                        // losing physical safety
+      framework: { yellow: 3, blue: 1 },           // losing worldview
+    },
+  },
+
+  // ━━ MEANING & PURPOSE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  d017: {
+    // "Year off, expenses covered..."
+    type: "choice",
+    options: {
+      a: { orange: 3, red: 1 },                   // build something
+      b: { purple: 2, green: 2 },                 // deepen relationships
+      c: { yellow: 2, orange: 1 },                // travel and learn
+      d: { turquoise: 3, beige: 1 },              // go inward
+    },
+  },
+
+  d018: {
+    // "When you think about death..."
+    type: "choice",
+    options: {
+      a: { orange: 3 },                           // not accomplished enough
+      b: { purple: 3, green: 1 },                 // leaving loved ones
+      c: { blue: 3 },                             // lived with integrity
+      d: { turquoise: 3 },                        // part of the cycle
+    },
+  },
+
+  d019: {
+    // "Which statement about suffering..."
+    type: "choice",
+    options: {
+      a: { orange: 2, yellow: 1 },                // problem to solve
+      b: { blue: 2, purple: 1 },                  // suffering has meaning
+      c: { green: 3 },                            // suffering connects us
+      d: { turquoise: 3 },                        // part of larger pattern
+    },
+  },
+
+  d020: {
+    // "Different worldview — how much does it bother you?"
+    // Low: different perspectives natural → Yellow/Green
+    // High: some things aren't opinion → Blue/Red
+    type: "slider",
+    low: { yellow: 3, green: 1 },
+    high: { blue: 2, red: 2 },
+  },
+
+  // ━━ CHANGE & UNCERTAINTY ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  d021: {
+    // "Major workplace change, no plan..."
+    type: "choice",
+    options: {
+      a: { red: 2, orange: 2 },                   // make own plan
+      b: { blue: 3 },                             // clear expectations
+      c: { green: 3 },                            // team feelings
+      d: { yellow: 3, turquoise: 1 },             // change is interesting
+    },
+  },
+
+  d022: {
+    // "Opportunity means leaving everything familiar..."
+    type: "choice",
+    options: {
+      a: { orange: 2, red: 2 },                   // new frontiers = growth
+      b: { purple: 2, blue: 2 },                  // what I'd leave matters
+    },
+  },
+
+  d023: {
+    // "State of the world right now..."
+    type: "choice",
+    options: {
+      a: { purple: 2, blue: 2 },                  // back to core values
+      b: { blue: 2, orange: 1 },                  // better leadership
+      c: { green: 3 },                            // more compassion
+      d: { yellow: 3, turquoise: 1 },             // necessary transition
+    },
+  },
+
+  d024: {
+    // "How do you feel about personal uncertainty?"
+    // Low: need a plan → Blue/Orange    High: comfortable not knowing → Turquoise/Yellow
+    type: "slider",
+    low: { blue: 2, orange: 2 },
+    high: { turquoise: 2, yellow: 2 },
+  },
+
+  d025: {
+    // "Belief turns out wrong — honest reaction..."
+    type: "choice",
+    options: {
+      a: { orange: 2, blue: 1 },                  // embarrassment
+      b: { yellow: 3 },                           // curiosity
+      c: { beige: 2, purple: 1 },                 // disorientation
+      d: { turquoise: 2, red: 1 },                // relief
+    },
+  },
 };
 
 // ── Tension Pairs (anti-inflation) ──────────────────────────────────────────
@@ -421,6 +705,7 @@ export interface TensionPair {
 }
 
 export const TENSION_PAIRS: TensionPair[] = [
+  // ── Original tension pairs ────────────────────────────────────────────────
   {
     // q003: honesty vs. gentleness ↔ q018: direct vs. understanding
     // If user claims both "honesty matters more" AND "try to understand" → inflated green
@@ -456,6 +741,44 @@ export const TENSION_PAIRS: TensionPair[] = [
     aspirationalA: "b", // be present (green)
     aspirationalB: "a", // push through (red/orange)
     description: "Claims deep empathetic presence but also grit/push-through under stress",
+  },
+
+  // ── Deep assessment tension pairs ─────────────────────────────────────────
+  {
+    // d003: takes credit → "let it go" (green) ↔ d004: frustration → "exclusion" (green)
+    // Both green-leaning responses may indicate green inflation
+    questionA: "d003",
+    questionB: "d004",
+    aspirationalA: "c",   // let it go (green/turquoise)
+    aspirationalB: "c",   // hates exclusion (green)
+    description: "Claims both ego-transcendence AND strong reaction to exclusion (Green inflation)",
+  },
+  {
+    // d007: space in relationship → direct ↔ d015: under stress → withdraw
+    // Claims direct communication but also withdraws under stress
+    questionA: "d007",
+    questionB: "d015",
+    aspirationalA: "a",   // direct about needing space (red/orange)
+    aspirationalB: "b",   // withdraws under stress (beige)
+    description: "Claims direct communication but actually withdraws when stressed",
+  },
+  {
+    // d011: government slider ↔ d012: homeless shelter
+    // Extreme freedom stance but also systems-thinking on homelessness
+    questionA: "d011",
+    questionB: "d012",
+    aspirationalA: (v: number) => v > 75,  // strong freedom stance
+    aspirationalB: "d",                    // root cause / systems thinking
+    description: "Claims strong anti-government freedom but also systemic root-cause thinking",
+  },
+  {
+    // d020: different worldviews ↔ d025: belief turns out wrong
+    // Claims comfort with different views AND distress when own belief is wrong
+    questionA: "d020",
+    questionB: "d025",
+    aspirationalA: (v: number) => v < 25,  // perspectives natural (yellow)
+    aspirationalB: "c",                    // disorientation when wrong
+    description: "Claims openness to different worldviews but disorients when own beliefs challenged",
   },
 ];
 

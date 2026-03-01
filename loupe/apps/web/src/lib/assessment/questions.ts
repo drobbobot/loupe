@@ -1,11 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Loupe — Seed Assessment Questions
+// Loupe — Seed Assessment Questions (Original 35)
 //
-// 35 questions across 5 sections of 7 questions each.
-// These serve as:
-//   1. Source data for Sanity CMS import (scripts/seed-assessment.ts)
-//   2. Development fallback when Sanity isn't populated
-//   3. Documentation of the complete question set
+// Now tagged with life domain and assessment tier.
+// These form the foundation pool — the Quick Quiz draws 12 from here,
+// and the Deep Assessment uses all 35 plus ~25 additional questions.
 //
 // DESIGN PRINCIPLES (from prd.md §4.1):
 //   - Situational & indirect — no direct self-report of values
@@ -28,6 +26,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q001",
     section: 1,
+    domain: "work",
+    tier: "both",
     questionText:
       "When you wake up with nothing planned for the day, your first instinct is to...",
     inputType: "slider",
@@ -42,6 +42,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q002",
     section: 1,
+    domain: "relationships",
+    tier: "deep",
     questionText:
       "You\u2019re at a gathering where you don\u2019t know many people. You tend to...",
     inputType: "multiple_choice",
@@ -69,6 +71,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q003",
     section: 1,
+    domain: "relationships",
+    tier: "both",
     questionText:
       "A friend asks for your honest opinion on a decision they\u2019ve already made. You...",
     inputType: "binary",
@@ -89,6 +93,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q004",
     section: 1,
+    domain: "meaning",
+    tier: "deep",
     questionText:
       "How much do daily rituals and routines matter to your sense of wellbeing?",
     inputType: "slider",
@@ -101,6 +107,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q005",
     section: 1,
+    domain: "work",
+    tier: "both",
     questionText:
       "When a team project is going off track, your instinct is to...",
     inputType: "multiple_choice",
@@ -125,6 +133,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q006",
     section: 1,
+    domain: "work",
+    tier: "deep",
     questionText:
       "When you achieve something significant, what matters more to you?",
     inputType: "binary",
@@ -137,6 +147,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q007",
     section: 1,
+    domain: "conflict",
+    tier: "deep",
     questionText:
       "Order these by how much they contribute to your sense of security:",
     inputType: "ranked",
@@ -164,6 +176,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q008",
     section: 2,
+    domain: "meaning",
+    tier: "both",
     questionText: "You have a free weekend. You\u2019re most drawn to...",
     inputType: "multiple_choice",
     options: [
@@ -194,6 +208,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q009",
     section: 2,
+    domain: "politics",
+    tier: "both",
     questionText:
       "When you hear about someone breaking a rule, your first reaction is...",
     inputType: "slider",
@@ -206,6 +222,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q010",
     section: 2,
+    domain: "work",
+    tier: "deep",
     questionText:
       "Imagine you\u2019ve been offered two roles at the same salary:",
     inputType: "binary",
@@ -226,6 +244,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q011",
     section: 2,
+    domain: "meaning",
+    tier: "deep",
     questionText:
       "What\u2019s most likely to make you feel truly alive?",
     inputType: "multiple_choice",
@@ -247,6 +267,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q012",
     section: 2,
+    domain: "politics",
+    tier: "deep",
     questionText:
       "How comfortable are you with situations where there\u2019s no clear authority or leader?",
     inputType: "slider",
@@ -260,6 +282,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q013",
     section: 2,
+    domain: "change",
+    tier: "both",
     questionText:
       "When making an important decision, you trust...",
     inputType: "binary",
@@ -272,6 +296,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q014",
     section: 2,
+    domain: "meaning",
+    tier: "deep",
     questionText:
       "How important is it to you that traditions are maintained, even when they seem outdated?",
     inputType: "slider",
@@ -289,6 +315,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q015",
     section: 3,
+    domain: "relationships",
+    tier: "deep",
     questionText:
       "When someone close to you is going through a hard time, you\u2019re more likely to...",
     inputType: "binary",
@@ -310,6 +338,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q016",
     section: 3,
+    domain: "conflict",
+    tier: "both",
     questionText:
       "In a disagreement, how important is it that you \u2018win\u2019 the argument?",
     inputType: "slider",
@@ -323,6 +353,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q017",
     section: 3,
+    domain: "relationships",
+    tier: "deep",
     questionText:
       "You notice a friend has started pulling away from your group. You...",
     inputType: "multiple_choice",
@@ -353,6 +385,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q018",
     section: 3,
+    domain: "work",
+    tier: "deep",
     questionText:
       "You\u2019re leading a group. A member is consistently underperforming. You...",
     inputType: "binary",
@@ -373,6 +407,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q019",
     section: 3,
+    domain: "work",
+    tier: "deep",
     questionText:
       "How much do you value being seen as successful by others?",
     inputType: "slider",
@@ -386,6 +422,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q020",
     section: 3,
+    domain: "relationships",
+    tier: "deep",
     questionText:
       "At a family gathering, you\u2019re most likely to...",
     inputType: "multiple_choice",
@@ -414,6 +452,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q021",
     section: 3,
+    domain: "change",
+    tier: "deep",
     questionText:
       "How do you feel about the idea that some conflicts can\u2019t be resolved \u2014 only held?",
     inputType: "slider",
@@ -432,6 +472,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q022",
     section: 4,
+    domain: "conflict",
+    tier: "deep",
     questionText:
       "When facing a crisis, your first instinct is to...",
     inputType: "slider",
@@ -447,6 +489,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q023",
     section: 4,
+    domain: "conflict",
+    tier: "both",
     questionText:
       "A close friend betrays your trust. Your gut reaction is closer to...",
     inputType: "binary",
@@ -467,6 +511,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q024",
     section: 4,
+    domain: "politics",
+    tier: "deep",
     questionText:
       "You discover that an institution you trusted has been acting unethically. You...",
     inputType: "multiple_choice",
@@ -497,6 +543,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q025",
     section: 4,
+    domain: "conflict",
+    tier: "deep",
     questionText:
       "When you feel physically unsafe, how much does that affect your ability to think clearly?",
     inputType: "slider",
@@ -511,6 +559,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q026",
     section: 4,
+    domain: "conflict",
+    tier: "deep",
     questionText:
       "When you\u2019re under stress, you\u2019re more likely to...",
     inputType: "binary",
@@ -531,6 +581,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q027",
     section: 4,
+    domain: "conflict",
+    tier: "deep",
     questionText:
       "Something you\u2019ve worked hard on fails publicly. Your first thought is...",
     inputType: "multiple_choice",
@@ -556,6 +608,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q028",
     section: 4,
+    domain: "change",
+    tier: "both",
     questionText:
       "A sudden change disrupts your plans. You feel...",
     inputType: "binary",
@@ -580,6 +634,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q029",
     section: 5,
+    domain: "meaning",
+    tier: "deep",
     questionText:
       "If you could make one lasting contribution to the world, it would be...",
     inputType: "multiple_choice",
@@ -611,6 +667,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q030",
     section: 5,
+    domain: "politics",
+    tier: "both",
     questionText:
       "How much do you believe there\u2019s a \u2018right way\u2019 to live?",
     inputType: "slider",
@@ -625,6 +683,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q031",
     section: 5,
+    domain: "politics",
+    tier: "deep",
     questionText:
       "When you think about the future of humanity, you feel more...",
     inputType: "binary",
@@ -645,6 +705,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q032",
     section: 5,
+    domain: "meaning",
+    tier: "both",
     questionText:
       "What brings you the deepest sense of meaning?",
     inputType: "multiple_choice",
@@ -669,6 +731,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q033",
     section: 5,
+    domain: "relationships",
+    tier: "both",
     questionText:
       "How much does the suffering of strangers on the other side of the world affect you personally?",
     inputType: "slider",
@@ -681,6 +745,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q034",
     section: 5,
+    domain: "meaning",
+    tier: "deep",
     questionText:
       "Order these by how much they resonate with your deepest self:",
     inputType: "ranked",
@@ -710,6 +776,8 @@ export const SEED_QUESTIONS: AssessmentQuestion[] = [
   {
     id: "q035",
     section: 5,
+    domain: "change",
+    tier: "deep",
     questionText:
       "If you had to choose, which matters more to you?",
     inputType: "binary",

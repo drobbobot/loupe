@@ -45,15 +45,16 @@ export default async function HomePage() {
       if (result) {
         // Map DB row to AssessmentResult shape
         const assessmentResult: AssessmentResult = {
-          primaryLens: result.primary_lens as LensSlug,
-          secondaryLens: result.secondary_lens as LensSlug,
-          shadowFlags: result.shadow_flags as AssessmentResult["shadowFlags"],
-          growthOrientation: (result.growth_orientation as string) ?? "",
-          confidenceLevel: (result.confidence_level as ConfidenceLevel) ?? "high",
-          inflationFlag: result.inflation_flag ?? false,
+          tier: ((result as Record<string, unknown>).tier as AssessmentResult["tier"]) ?? "quick",
+          primaryLens: (result as Record<string, unknown>).primary_lens as LensSlug,
+          secondaryLens: (result as Record<string, unknown>).secondary_lens as LensSlug,
+          shadowFlags: (result as Record<string, unknown>).shadow_flags as AssessmentResult["shadowFlags"],
+          growthOrientation: ((result as Record<string, unknown>).growth_orientation as string) ?? "",
+          confidenceLevel: ((result as Record<string, unknown>).confidence_level as ConfidenceLevel) ?? "high",
+          inflationFlag: ((result as Record<string, unknown>).inflation_flag as boolean) ?? false,
         };
 
-        completedAt = result.completed_at;
+        completedAt = (result as Record<string, unknown>).completed_at as string;
 
         // Get lens profiles for primary + secondary
         const primaryLens = getSeedLens(assessmentResult.primaryLens);

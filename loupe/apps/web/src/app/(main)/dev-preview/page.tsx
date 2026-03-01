@@ -52,6 +52,7 @@ export default async function DevPreviewPage({ searchParams }: Props) {
   // Build mock assessment result
   const portrait = PORTRAITS[primarySlug];
   const mockResult: AssessmentResult = {
+    tier: "quick",
     primaryLens: primarySlug,
     secondaryLens: secondarySlug,
     shadowFlags: portrait.shadowFlags,

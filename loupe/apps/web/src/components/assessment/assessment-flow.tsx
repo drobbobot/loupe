@@ -12,7 +12,12 @@
 
 import { useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { AssessmentQuestion, LensSlug } from "@loupe/types";
+import type {
+  AssessmentQuestion,
+  AssessmentResponse,
+  AssessmentTier,
+  LensSlug,
+} from "@loupe/types";
 import { useAssessmentStore } from "@/stores/assessment";
 import { LensGem } from "@/components/ui/lens-gem";
 import { ProgressBar } from "./progress-bar";
@@ -24,16 +29,24 @@ import { SavePrompt } from "./save-prompt";
 interface AssessmentFlowProps {
   /** Questions loaded from Sanity (or seed fallback) via server component */
   questions: AssessmentQuestion[];
+  /** Assessment tier — affects intro copy, submission, and result display */
+  tier?: AssessmentTier;
+  /** Pre-populated responses from a previous quick quiz (deep pre-populate flow) */
+  prePopulatedResponses?: AssessmentResponse[];
 }
 
-export function AssessmentFlow({ questions }: AssessmentFlowProps) {
+export function AssessmentFlow({
+  questions,
+  tier = "quick",
+  prePopulatedResponses,
+}: AssessmentFlowProps) {
   const store = useAssessmentStore();
 
   // Initialise store with questions on mount
   useEffect(() => {
-    store.initialise(questions);
+    store.initialise(questions, tier, prePopulatedResponses);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [questions]);
+  }, [questions, tier]);
 
   const currentQuestion = store.questions[store.currentIndex];
   const existingResponse = store.responses.find(
@@ -93,12 +106,12 @@ export function AssessmentFlow({ questions }: AssessmentFlowProps) {
               className="flex max-w-md flex-col items-center px-6 text-center"
             >
               <h1 className="font-serif text-3xl font-medium text-warm-900 sm:text-4xl">
-                Find your lens
+                {store.tier === "deep" ? "Go deeper" : "Find your lens"}
               </h1>
               <p className="mt-4 text-warm-600 leading-relaxed">
-                This assessment takes about 15 minutes. You&apos;ll see a mix of
-                scenarios, choices, and quick-fire questions &mdash; there are no
-                right answers.
+                {store.tier === "deep"
+                  ? "This assessment maps how your lens shifts across the different areas of your life \u2014 work, relationships, conflict, politics, meaning, and change. About 15 minutes."
+                  : "Twelve questions, about 3 minutes. Discover the perspective you see the world through most naturally."}
               </p>
               <p className="mt-3 text-warm-500 text-sm">
                 Answer with how you actually are, not how you&apos;d like to be.
@@ -114,7 +127,9 @@ export function AssessmentFlow({ questions }: AssessmentFlowProps) {
               </motion.button>
 
               <p className="mt-6 text-xs text-warm-400">
-                35 questions &middot; 5 sections &middot; No account required
+                {store.tier === "deep"
+                  ? `${store.questions.length} questions \u00b7 6 domains \u00b7 No account required`
+                  : "12 questions \u00b7 3 sections \u00b7 No account required"}
               </p>
             </motion.div>
           )}
